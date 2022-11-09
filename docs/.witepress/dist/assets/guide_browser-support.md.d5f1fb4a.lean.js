@@ -1,0 +1,1 @@
+import{_ as t,c as e,o as s,a}from"./app.3b6acc86.js";const y=JSON.parse('{"title":"Browser Support","description":"","frontmatter":{},"headers":[],"relativePath":"guide/browser-support.md"}'),n={name:"guide/browser-support.md"},r=a("",9),l=[r];function c(d,i,o,p,h,_){return s(),e("div",null,l)}const u=t(n,[["render",c]]);export{y as __pageData,u as default};

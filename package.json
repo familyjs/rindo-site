@@ -1,0 +1,34 @@
+{
+  "name": "rindo-site",
+  "version": "1.0.0",
+  "description": "Rindo documentation website",
+  "repository": "https://github.com/navify/rindo-site",
+  "author": "Navify Team",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "witepress dev docs",
+    "build": "witepress build docs",
+    "serve": "witepress serve docs",
+    "deploy:firebase": "npm run build && firebase deploy"
+  },
+  "devDependencies": {
+    "kdu": "^3.2.37",
+    "wite": "^3.0.0-alpha.0",
+    "witepress": "^1.0.0-alpha.5"
+  },
+  "packageManager": "pnpm@7.5.0",
+  "pnpm": {
+    "overrides": {
+      "wite": "^3.0.0-alpha.0",
+      "@witejs/plugin-kdu": "^3.0.0-beta.1"
+    },
+    "packageExtensions": {
+      "postcss-load-config": {
+        "peerDependencies": {
+          "postcss": "*"
+        }
+      }
+    }
+  }
+}

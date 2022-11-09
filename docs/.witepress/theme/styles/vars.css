@@ -1,0 +1,116 @@
+/**
+ * Colors
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --wp-c-brand: #646cff;
+  --wp-c-brand-light: #747bff;
+  --wp-c-brand-lighter: #9499ff;
+  --wp-c-brand-lightest: #bcc0ff;
+  --wp-c-brand-dark: #535bf2;
+  --wp-c-brand-darker: #454ce1;
+  --wp-c-brand-dimm: rgba(100, 108, 255, 0.08);
+}
+
+/**
+ * Component: Button
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --wp-button-brand-border: var(--wp-c-brand-light);
+  --wp-button-brand-text: var(--wp-c-text-dark-1);
+  --wp-button-brand-bg: var(--wp-c-brand);
+  --wp-button-brand-hover-border: var(--wp-c-brand-light);
+  --wp-button-brand-hover-text: var(--wp-c-text-dark-1);
+  --wp-button-brand-hover-bg: var(--wp-c-brand-light);
+  --wp-button-brand-active-border: var(--wp-c-brand-light);
+  --wp-button-brand-active-text: var(--wp-c-text-dark-1);
+  --wp-button-brand-active-bg: var(--wp-button-brand-bg);
+}
+
+/**
+ * Component: Home
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --wp-home-hero-name-color: transparent;
+  --wp-home-hero-name-background: -webkit-linear-gradient(
+    120deg,
+    #add3d8 30%,
+    #81a1b1
+  );
+
+  --wp-home-hero-image-background-image: linear-gradient(
+    -45deg,
+    #add3d8 50%,
+    #81a1b1 50%
+  );
+  --wp-home-hero-image-filter: blur(40px);
+}
+
+@media (min-width: 640px) {
+  :root {
+    --wp-home-hero-image-filter: blur(56px);
+  }
+}
+
+@media (min-width: 960px) {
+  :root {
+    --wp-home-hero-image-filter: blur(72px);
+  }
+}
+
+/**
+ * Component: Custom Block
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --wp-custom-block-tip-border: var(--wp-c-brand);
+  --wp-custom-block-tip-text: var(--wp-c-brand-darker);
+  --wp-custom-block-tip-bg: var(--wp-c-brand-dimm);
+}
+
+.dark {
+  --wp-custom-block-tip-border: var(--wp-c-brand);
+  --wp-custom-block-tip-text: var(--wp-c-brand-lightest);
+  --wp-custom-block-tip-bg: var(--wp-c-brand-dimm);
+}
+
+/**
+ * Component: Algolia
+ * -------------------------------------------------------------------------- */
+
+.DocSearch {
+  --docsearch-primary-color: var(--wp-c-brand) !important;
+}
+
+/**
+ * WitePress: Custom fix
+ * -------------------------------------------------------------------------- */
+
+/*
+  Use lighter colors for links in dark mode for a11y.
+  Also specify some classes twice to have higher specificity
+  over scoped class data attribute.
+*/
+.dark .wp-doc a,
+.dark .wp-doc a > code,
+.dark .WPNavBarMenuLink.WPNavBarMenuLink:hover,
+.dark .WPNavBarMenuLink.WPNavBarMenuLink.active,
+.dark .link.link:hover,
+.dark .link.link.active,
+.dark .edit-link-button.edit-link-button,
+.dark .pager-link .title {
+  color: var(--wp-c-brand-lighter);
+}
+
+.dark .wp-doc a:hover,
+.dark .wp-doc a > code:hover {
+  color: var(--wp-c-brand-lightest);
+  opacity: 1;
+}
+
+/* Transition by color instead of opacity */
+.dark .wp-doc .custom-block a {
+  transition: color 0.25s;
+}
