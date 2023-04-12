@@ -298,6 +298,11 @@
         "url": "/docs/service-workers"
       },
       {
+        "text": "Store",
+        "filePath": "/assets/docs/guides/store.json",
+        "url": "/docs/store"
+      },
+      {
         "text": "Style Guide",
         "filePath": "/assets/docs/guides/style-guide.json",
         "url": "/docs/style-guide"
