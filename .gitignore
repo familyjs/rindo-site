@@ -8,6 +8,7 @@
 # Generated files
 .docusaurus
 .cache-loader
+.firebase
 
 # Misc
 .DS_Store
