@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@docusaurus/core": "^2.4.0",
-    "@docusaurus/remark-plugin-npm2yarn": "^2.4.0",
+    "@docusaurus/remark-plugin-npm2yarn": "^2.4.1",
     "@family-internal/preset-classic": "file:./family-preset-classic",
     "@familyjs/prettier-config": "^2.0.0",
     "@mdx-js/react": "^1.6.22",
