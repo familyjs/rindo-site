@@ -15,7 +15,7 @@
     "check-links": "remark --use remark-validate-links ."
   },
   "dependencies": {
-    "@docusaurus/core": "^2.4.0",
+    "@docusaurus/core": "^2.4.1",
     "@docusaurus/remark-plugin-npm2yarn": "^2.4.0",
     "@family-internal/preset-classic": "file:./family-preset-classic",
     "@familyjs/prettier-config": "^2.0.0",
