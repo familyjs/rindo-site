@@ -1,4 +1,6 @@
 package.json
 package-lock.json
+.firebaserc
+firebase.json
 # auto-generated/maintained by docusaurus
 versions.json
