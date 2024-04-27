@@ -1,7 +1,7 @@
 ---
 title: Rindo Core Dev Server API
 sidebar_label: Dev Server API
-description:  Rindo Core Dev Server API
+description: Rindo Core Dev Server API
 slug: /dev-server-api
 ---
 

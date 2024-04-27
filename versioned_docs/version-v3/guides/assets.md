@@ -22,6 +22,7 @@ The **asset base path** is the directory that Rindo will use to resolve assets.
 When a component uses an asset, the asset's location is resolved relative to the asset base path.
 
 The asset base path is automatically set for the following output targets:
+
 - [dist](../output-targets/dist.md)
 - [hydrate](./hydrate-app.md)
 - [www](../output-targets/www.md)
@@ -33,7 +34,7 @@ Oftentimes, this means there is only one asset base path per application using R
 
 ## Resolution Overview
 
-The process of resolving an asset involves asking Rindo to build a path to the asset on the filesystem. 
+The process of resolving an asset involves asking Rindo to build a path to the asset on the filesystem.
 
 When an asset's path is built, the resolution is always done in a project's compiled output, not the directory containing the original source code.
 
@@ -61,6 +62,7 @@ When using `getAssetPath`, the assets in the directory structure above are resol
 
 The code sample below demonstrates the return value of `getAssetPath` for different `path` arguments.
 The return value is a path that Rindo has built to retrieve the asset on the filesystem.
+
 ```ts
 // with an asset base path of "/build/":
 
@@ -69,7 +71,7 @@ getAssetPath('assets/logo.png');
 // '/build/assets/scenery/beach.png'
 getAssetPath('assets/scenery/beach.png');
 // '/build/other-assets/font.tiff'
-getAssetPath('other-assets/font.tiff'); 
+getAssetPath('other-assets/font.tiff');
 ```
 
 ## Making Assets Available
@@ -80,7 +82,7 @@ This section describes how to make assets available under the asset base path.
 
 ### assetsDirs
 
-The `@Component` decorator can be [configured with the `assetsDirs` option](../components/component.md#component-options). 
+The `@Component` decorator can be [configured with the `assetsDirs` option](../components/component.md#component-options).
 `assetsDirs` takes an array of strings, where each entry is a relative path from the component to a directory containing the assets the component requires.
 
 When using the `dist` or `www` output targets, setting `assetsDirs` instructs Rindo to copy that folder into the distribution folder.
@@ -108,22 +110,22 @@ import { Component, Prop, getAssetPath, h } from '@rindo/core';
   tag: 'my-component',
   // 2. assetsDirs lists the 'assets' directory as a relative
   //    (sibling) directory
-  assetsDirs: ['assets']
+  assetsDirs: ['assets'],
 })
 export class MyComponent {
-
-  @Prop() image = "sunset.jpg";
+  @Prop() image = 'sunset.jpg';
 
   render() {
-    // 3. the asset path is retrieved relative to the asset 
+    // 3. the asset path is retrieved relative to the asset
     //    base path to use in the <img> tag
     const imageSrc = getAssetPath(`./assets/${this.image}`);
-    return <img src={imageSrc} />
+    return <img src={imageSrc} />;
   }
 }
 ```
 
 In the example above, the following allows `my-component` to display the provided asset:
+
 1. [`getAssetPath()`](#getassetpath) is imported from `@rindo/core`
 2. The `my-component`'s component decorator has the `assetsDirs` property, and lists the sibling directory, `assets`. This will copy `assets` over to the distribution directory.
 3. `getAssetPath` is used to retrieve the path to the image to be used in the `<img>` tag
@@ -153,13 +155,14 @@ export const config: Config = {
           src: '**/*.{jpg,png}',
           dest: 'dist/components/assets',
           warn: true,
-        }
-      ]
+        },
+      ],
     },
-  ], 
+  ],
   // ...
 };
 ```
+
 #### Rollup Configuration
 
 [Rollup Plugins](../config/plugins.md#rollup-plugins)'s can be used to define files and folders to be copied over to the distribution directory.
@@ -196,11 +199,11 @@ export const config: Config = {
 
 ### getAssetPath
 
-`getAssetPath()` is an API provided by Rindo to build the path to an asset, relative to the asset base path. 
+`getAssetPath()` is an API provided by Rindo to build the path to an asset, relative to the asset base path.
 
 ```ts
-/** 
- * Builds a URL to an asset. This is achieved by combining the 
+/**
+ * Builds a URL to an asset. This is achieved by combining the
  * provided `path` argument with the base asset path.
  * @param path the path of the asset to build a URL to
  * @returns the built URL
@@ -209,6 +212,7 @@ declare function getAssetPath(path: string): string;
 ```
 
 The code sample below demonstrates the return value of `getAssetPath` for different `path` arguments, when an asset base path of `/build/` has been set.
+
 ```ts
 // with an asset base path of "/build/":
 // "/build/"
@@ -246,5 +250,5 @@ If the file calling `setAssetPath` is a module, it's recommended to use `import.
 
 Alternatively, one may use [`document.currentScript.src`](https://developer.mozilla.org/en-US/docs/Web/API/Document/currentScript)
 when working in the browser and not using modules or environment variables (e.g. `document.env.ASSET_PATH`) to set the
-asset base path. 
+asset base path.
 This configuration depends on how your script is bundled, (or lack of bundling), and where your assets can be loaded from.

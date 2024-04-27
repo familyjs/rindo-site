@@ -5,7 +5,6 @@ description: Rindo Copy Tasks
 slug: /copy-tasks
 ---
 
-
 # Copy Tasks for Output Targets
 
 Each output target can have its own `copy` config, which is an array of objects that defines any files or folders that should be copied over to the output target's build directory.
@@ -17,31 +16,26 @@ Each object in the array must include a `src` property which can be either an ab
 In the `copy` config within the `www` output target example below, the build will copy the entire directory from `src/images` over to `www/images`. In this example, since the `srcDir` property is not set, the default source directory is `src`.
 
 ```tsx
-  outputTargets: [
-    {
-      type: 'www',
-      copy: [
-        { src: 'images' }
-      ]
-    }
-  ]
+outputTargets: [
+  {
+    type: 'www',
+    copy: [{ src: 'images' }],
+  },
+];
 ```
-
 
 ### dest
 
 The config can also provide an optional `dest` property which can be either an absolute path, or a path relative to the build directory of that output target. In the example below, we've customized the build directory to be `public` instead of the default, which will copy `src/files/fonts` over to `public/static/web-fonts`.
 
 ```tsx
-  outputTargets: [
-    {
-      type: 'www',
-      dir: 'public',
-      copy: [
-        { src: 'files/fonts', dest: 'static/web-fonts' }
-      ]
-    }
-  ]
+outputTargets: [
+  {
+    type: 'www',
+    dir: 'public',
+    copy: [{ src: 'files/fonts', dest: 'static/web-fonts' }],
+  },
+];
 ```
 
 ### warn
@@ -49,12 +43,10 @@ The config can also provide an optional `dest` property which can be either an a
 By default, if a file or directory is not available it will not warn if the copy task cannot find it. To see the warnings if a copy task source cannot be found, please set `warn: true` with the copy config object.
 
 ```tsx
-  outputTargets: [
-    {
-      type: 'dist',
-      copy: [
-        { src: 'fonts', warn: true }
-      ]
-    }
-  ]
+outputTargets: [
+  {
+    type: 'dist',
+    copy: [{ src: 'fonts', warn: true }],
+  },
+];
 ```

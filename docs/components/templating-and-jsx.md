@@ -32,7 +32,6 @@ In this example we're returning the JSX representation of a `div`, with two chil
 
 If you want to modify the host element itself, such as adding a class or an attribute to the component itself, use the `<Host>` functional component. Check for more details [here](./host-element.md)
 
-
 ## Data Binding
 
 Components often need to render dynamic data. To do this in JSX, use `{ }` around a variable:
@@ -56,7 +55,6 @@ If you're familiar with ES6 template variables, JSX variables are very similar, 
 //JSX
 Hello {this.name}
 ```
-
 
 ## Conditionals
 
@@ -91,9 +89,8 @@ render() {
 **Please note:** Rindo reuses DOM elements for better performance. Consider the following code:
 
 ```tsx
-{someCondition
-  ? <my-counter initialValue={2} />
-  : <my-counter initialValue={5} />
+{
+  someCondition ? <my-counter initialValue={2} /> : <my-counter initialValue={5} />;
 }
 ```
 
@@ -108,14 +105,12 @@ Thus, if `someCondition` changes, the internal state of `<my-counter>` won't be 
 If you want to destroy and recreate a component in a conditional, you can assign the `key` attribute. This tells Rindo that the components are actually different siblings:
 
 ```tsx
-{someCondition
-  ? <my-counter key="a" initialValue={2} />
-  : <my-counter key="b" initialValue={5} />
+{
+  someCondition ? <my-counter key="a" initialValue={2} /> : <my-counter key="b" initialValue={5} />;
 }
 ```
 
 This way, if `someCondition` changes, you get a new `<my-counter>` component with fresh internal state that also runs the lifecycle methods `componentWillLoad()` and `componentDidLoad()`.
-
 
 ## Slots
 
@@ -175,6 +170,22 @@ render(){
 }
 ```
 
+### Slots Outside Shadow DOM
+
+:::caution
+Slots are native to the [Shadow DOM](https://developer.mozilla.org/en-US/docs/Web/API/Web_components/Using_shadow_DOM), but Rindo polyfills
+the behavior to work for non-shadow components as well. However, you may encounter issues using slots outside the Shadow DOM especially with
+component trees mixing shadow and non-shadow components, or when passing a slot through many levels of components. In many cases, this behavior can
+be remedied by wrapping the `slot` in an additional element (like a `div` or `span`) so the Rindo runtime can correctly "anchor" the relocated
+content in its new location.
+:::
+
+There are known use cases that the Rindo runtime is not able to support:
+
+- Forwarding slotted content to another slot with a different name:<br/>
+  It is recommended that slot names stay consistent when slotting content through multiple levels of components. **Avoid** defining slot tags like
+  `<slot name="start" slot="main" />`.
+
 ## Dealing with Children
 
 The children of a node in JSX correspond at runtime to an array of nodes,
@@ -183,7 +194,6 @@ whether they are created by mapping across an array with
 or simply declared as siblings directly in JSX. This means that at runtime the
 children of the two top-level divs below (`.todo-one` and `.todo-two`) will be
 represented the same way:
-
 
 ```tsx
 render() {
@@ -211,11 +221,11 @@ each element like so:
 render() {
   return (
     <div>
-      {this.todos.map((todo) =>
+      {this.todos.map((todo) => (
         <div key={todo.uid}>
           <div>{todo.taskName}</div>
         </div>
-      )}
+      ))}
     </div>
   )
 }
@@ -230,6 +240,46 @@ children across renders and thereby avoid recreating DOM nodes unnecessarily.
 Do not use an array index or some other non-unique value as a key. Try to
 ensure that each child has a key which does not change and which is unique
 among all its siblings.
+:::
+
+### Automatic Key Insertion
+
+During compilation Rindo will automatically add key attributes to any JSX
+nodes in your component's render method which are not nested within curly
+braces. This allows Rindo’s runtime to accurately reconcile children when
+their order changes or when a child is conditionally rendered.
+
+For instance, consider a render method looking something like this:
+
+```tsx
+  render() {
+    return (
+      <div>
+        { this.disabled && <div id="no-key">no key!</div> }
+        <div id="slot-wrapper">
+          <slot/>
+        </div>
+      </div>
+    );
+  }
+```
+
+While it might seem like adding a key attribute to the `#slot-wrapper` div
+could help ensure that elements will be matched up correctly when the component
+re-renders, this is actually superfluous because Rindo will automatically add
+a key to that element when it compiles your component.
+
+:::note
+The Rindo compiler can only safely perform automatic key insertion in certain
+scenarios where there is no danger of the keys accidentally causing elements to
+be considered different when they should be treated the same (or vice versa).
+
+In particular, the compiler will not automatically insert `key` attributes if a
+component's `render` method has more than one `return` statement or if it
+returns a [conditional
+expression](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Conditional_operator).
+Additionally, the compiler will not add key attributes to any JSX which is
+found within curly braces (`{ }`).
 :::
 
 ## Handling User Input
@@ -269,7 +319,6 @@ export class MyComponent {
   }
 }
 ```
-
 
 ## Complex Template Content
 
@@ -336,20 +385,19 @@ In cases where you need to get a direct reference to an element, like you would 
   tag: 'app-home',
 })
 export class AppHome {
-
   textInput!: HTMLInputElement;
 
   handleSubmit = (event: Event) => {
     event.preventDefault();
     console.log(this.textInput.value);
-  }
+  };
 
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
         <label>
           Name:
-          <input type="text" ref={(el) => this.textInput = el as HTMLInputElement} />
+          <input type="text" ref={(el) => (this.textInput = el as HTMLInputElement)} />
         </label>
         <input type="submit" value="Submit" />
       </form>
@@ -359,7 +407,6 @@ export class AppHome {
 ```
 
 In this example we are using `ref` to get a reference to our input `ref={(el) => this.textInput = el as HTMLInputElement}`. We can then use that ref to do things such as grab the value from the text input directly `this.textInput.value`.
-
 
 ## Avoid Shared JSX Nodes
 
@@ -394,7 +441,6 @@ Alternatively, creating a factory function to return a common JSX node could be 
   tag: 'my-cmp',
 })
 export class MyCmp {
-
   getText() {
     return <div>Text</div>;
   }
@@ -409,3 +455,7 @@ export class MyCmp {
   }
 }
 ```
+
+## Other Resources
+
+- [Understanding JSX for RindoJS Applications](https://www.joshmorony.com/understanding-jsx-for-rindo-js-applications/)

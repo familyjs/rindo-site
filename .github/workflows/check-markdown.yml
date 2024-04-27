@@ -1,0 +1,24 @@
+name: Check Markdown
+
+on:
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  markdown-link-check:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+    - name: Use Node from Volta
+      uses: actions/setup-node@60edb5dd545a775178f52524783378180af0d1f8 # v4.0.2
+      with:
+        node-version-file: 'package.json'
+        cache: 'npm'
+
+    - name: install dependencies
+      run: npm ci
+
+    - name: check internal markdown links
+      run: npm run check-links

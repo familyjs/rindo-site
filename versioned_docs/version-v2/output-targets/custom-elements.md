@@ -24,7 +24,7 @@ This directory can be configured using the output target's `dir` config. The
 generated files will each export a component class and will already have the
 styles bundled. However, this build does not define the custom elements or
 apply any polyfills. Any dependencies of your imported component will need to
-be loaded as well. 
+be loaded as well.
 
 Below is an example of defining a custom element:
 
@@ -41,10 +41,7 @@ looking something like this:
 ```tsx
 export { setAssetPath, setPlatformOptions } from '@rindo/core/internal/client';
 export { MyComponent, defineCustomElement as defineCustomElementMyComponent } from './my-component.js';
-export {
-  MyOtherComponent,
-  defineCustomElement as defineCustomElementMyOtherComponent
-} from './my-other-component.js';
+export { MyOtherComponent, defineCustomElement as defineCustomElementMyOtherComponent } from './my-other-component.js';
 ```
 
 This file can be used as the root module when distributing your component
@@ -67,7 +64,7 @@ At this time, components created not using JSX may not be automatically
 defined. This is a known limitation of the API and users should be aware of
 it
 :::
-  
+
 ### externalRuntime
 
 When `true`, this flag results in the following behaviors:
@@ -83,7 +80,7 @@ This flag defaults to `true` when omitted from a Rindo configuration file.
 By default, type declaration files (`.d.ts` files) are only generated for the `dist-custom-elements` output target when
 the [`dist` output target](./dist.md) is also declared in a Rindo project's configuration. This behavior
 isn't always desirable, as not all users need the files emitted by the `dist` output target. To generate type
-declaration files for the `dist-custom-elements`, the experimental `generateTypeDeclarations` field can be set to 
+declaration files for the `dist-custom-elements`, the experimental `generateTypeDeclarations` field can be set to
 `true`.
 
 Setting this flag to `true` will generate type declaration files for the `dist-custom-elements` output target. Type
@@ -94,12 +91,12 @@ This flag defaults to `false` when omitted from a Rindo configuration file.
 
 ## Making Assets Available
 
-For performance reasons, the generated bundle does not include [local assets](../guides/assets.md) built within the JavaScript output, 
+For performance reasons, the generated bundle does not include [local assets](../guides/assets.md) built within the JavaScript output,
 but instead it's recommended to keep static assets as external files. By keeping them external this ensures they can be requested on-demand, rather
-than either welding their content into the JS file, or adding many URLs for the bundler to add to the output. 
+than either welding their content into the JS file, or adding many URLs for the bundler to add to the output.
 One method to ensure [assets](../guides/assets.md) are available to external builds and http servers is to set the asset path using `setAssetPath()`.
 
-The `setAssetPath()` function is used to manually set the base path where static assets can be found. 
+The `setAssetPath()` function is used to manually set the base path where static assets can be found.
 For the lazy-loaded output target the asset path is automatically set and assets copied to the correct
 build directory. However, for custom elements builds, the `setAssetPath(path)` should be
 used to customize the asset path depending on where they are found on the http server.
@@ -108,7 +105,6 @@ If the component's script is a `type="module"`, it's recommended to use `import.
 as `setAssetPath(import.meta.url)`. Other options include `setAssetPath(document.currentScript.src)`, or using a bundler's replace plugin to
 dynamically set the path at build time, such as `setAssetPath(process.env.ASSET_PATH)`.
 
-
 ```tsx
 import { setAssetPath } from 'my-library/dist/components';
 
@@ -116,7 +112,7 @@ setAssetPath(document.currentScript.src);
 ```
 
 Make sure to copy the assets over to a public directory in your app. This configuration depends on how your script is bundled, or lack of
-bundling, and where your assets can be loaded from. How the files are copied to the production build directory depends on the bundler or tooling. 
+bundling, and where your assets can be loaded from. How the files are copied to the production build directory depends on the bundler or tooling.
 The configs below provide examples of how to do this automatically with popular bundlers.
 
 ## Distributing Custom Elements
@@ -145,9 +141,9 @@ Be sure to set `@rindo/core` as a dependency of the package as well.
 
 :::note
 If you are distributing the output of both the
-  [`dist`](./dist.md) and `dist-custom-elements` targets, then
-  it's up to you to choose which one of them should be available in the
-  `module` entry.
+[`dist`](./dist.md) and `dist-custom-elements` targets, then
+it's up to you to choose which one of them should be available in the
+`module` entry.
 :::
 
 Consumers of your library can then either import components from their
@@ -166,12 +162,11 @@ import { MyComponent } from 'best-web-components';
 
 Now you can publish your library to [Node Package Manager
 (NPM)](https://www.npmjs.com/). For more information about setting up the
-`package.json` file, and publishing, see: [Publishing Component Library To
-NPM](../guides/publishing.md).
+`package.json` file, and publishing, see: [Publishing Component Library To NPM](../guides/publishing.md).
 
-### Usage in Typescript
+### Usage in TypeScript
 
-If you plan to support consuming your component library in Typescript you'll
+If you plan to support consuming your component library in TypeScript you'll
 need to set `generateTypeDeclarations: true` on the your output target in
 `rindo.config.ts`, like so:
 
@@ -281,7 +276,7 @@ export default {
 
 The `dist-custom-elements` builds each component as a stand-alone class that extends `HTMLElement`. The output is a standardized custom element with the styles already attached and without any of Rindo's lazy-loading. This may be preferred for projects that are already handling bundling, lazy-loading and defining the custom elements themselves.
 
-The `dist-custom-elements-bundle` output target is nearly the same as `dist-custom-elements`, and has been deprecated in Rindo v2.16.0 in favor of `dist-custom-elements` for its improved tree-shaking features. Rindo's React, and Kdu output targets use the `dist-custom-elements` for this reason.
+The `dist-custom-elements-bundle` output target is nearly the same as `dist-custom-elements`, and has been deprecated in [Rindo v2.12.0](https://github.com/familyjs/rindo/releases/tag/v2.12.0) in favor of `dist-custom-elements` for its improved tree-shaking features. Rindo's React, Kdu output targets use the `dist-custom-elements` for this reason.
 
 The `dist` output target, on the other hand, is more for projects that want to allow components to lazy-load themselves, without having to setup bundling configurations to do so.
 

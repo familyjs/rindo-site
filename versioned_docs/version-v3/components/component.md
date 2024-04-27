@@ -44,6 +44,7 @@ Having a globally unique value helps prevent naming collisions with the global `
 It's recommended to choose a unique prefix for all your components within the same collection.
 
 **Example**:<br/>
+
 ```tsx
 import { Component } from '@rindo/core';
 
@@ -54,14 +55,19 @@ export class TodoList {
   // implementation omitted
 }
 ```
+
 After compilation, the component defined in `TodoList` can be used in HTML or another TSX file:
+
 ```html
 <!-- Here we use the component in an HTML file -->
 <todo-list></todo-list>
 ```
+
 ```tsx
-{/* Here we use the component in a TSX file */}
-<todo-list></todo-list>
+{
+  /* Here we use the component in a TSX file */
+}
+<todo-list></todo-list>;
 ```
 
 ### assetsDirs
@@ -93,21 +99,22 @@ import { Component, Prop, getAssetPath, h } from '@rindo/core';
   tag: 'todo-list',
   // 1. assetsDirs lists the 'assets' directory as a relative (sibling)
   // directory
-  assetsDirs: ['assets']
+  assetsDirs: ['assets'],
 })
 export class TodoList {
-  image = "sunset.jpg";
+  image = 'sunset.jpg';
 
   render() {
     // 2. the asset path is retrieved relative to the asset base path to use in
     // the <img> tag
     const imageSrc = getAssetPath(`./assets/${this.image}`);
-    return <img src={imageSrc} />
+    return <img src={imageSrc} />;
   }
 }
 ```
 
 In the example above, the following allows `todo-list` to display the provided asset:
+
 1. The `TodoList`'s `@Component()` decorator has the `assetsDirs` property, and lists the file's sibling directory, `assets/`.
    This will copy the `assets` directory over to the distribution directory.
 2. Rindo's [`getAssetPath()`](../guides/assets.md#getassetpath) is used to retrieve the path to the image to be used in the `<img>` tag
@@ -134,12 +141,13 @@ To use the native [shadow DOM](./styling.md#shadow-dom), see the configuration f
 This option cannot be set to `true` if `shadow` is enabled.
 
 **Example**:<br/>
+
 ```tsx
 import { Component } from '@rindo/core';
 
 @Component({
   tag: 'todo-list',
-  scoped: true
+  scoped: true,
 })
 export class TodoList {
   // implementation omitted
@@ -164,6 +172,7 @@ If an object literal containing `delegatesFocus` is provided, the component will
 When `delegatesFocus` is set to `true`, the component will have `delegatesFocus: true` added to its shadow DOM.
 
 When `delegatesFocus` is `true` and a non-focusable part of the component is clicked:
+
 - the first focusable part of the component is given focus
 - the component receives any available `focus` styling
 
@@ -172,12 +181,13 @@ If `shadow` is set to `false`, the component will not use native shadow DOM enca
 This option cannot be set to enabled if `scoped` is enabled.
 
 **Example 1**:<br/>
+
 ```tsx
 import { Component } from '@rindo/core';
 
 @Component({
   tag: 'todo-list',
-  shadow: true
+  shadow: true,
 })
 export class TodoList {
   // implementation omitted
@@ -185,14 +195,15 @@ export class TodoList {
 ```
 
 **Example 2**:<br/>
+
 ```tsx
 import { Component } from '@rindo/core';
 
 @Component({
   tag: 'todo-list',
-  shadow: { 
+  shadow: {
     delegatesFocus: true,
-  }
+  },
 })
 export class TodoList {
   // implementation omitted
@@ -207,11 +218,12 @@ export class TodoList {
 
 **Details:**<br/>
 Relative URL to an external stylesheet containing styles to apply to your component.
-By out of the box, Rindo will only process CSS files (files ending with `.css`).
+Out of the box, Rindo will only process CSS files (files ending with `.css`).
 Support for additional CSS variants, like Sass, can be added via [a plugin](https://rindojs.web.app/docs/plugins#related-plugins).
 
 **Example**:<br/>
 Below is an example project's directory structure containing an example component and stylesheet.
+
 ```
 src/
 └── components/
@@ -243,13 +255,13 @@ export class TodoList {
 A list of relative URLs to external stylesheets containing styles to apply to your component.
 
 Alternatively, an object can be provided that maps a named "mode" to one or more stylesheets.
-This 
 
-By out of the box, Rindo will only process CSS files (ending with `.css`).
+Out of the box, Rindo will only process CSS files (ending with `.css`).
 Support for additional CSS variants, like Sass, can be added via [a plugin](https://rindojs.web.app/docs/plugins#related-plugins).
 
 **Example**:<br/>
 Below is an example project's directory structure containing an example component and stylesheet.
+
 ```
 src/
 └── components/
@@ -265,7 +277,7 @@ import { Component } from '@rindo/core';
 
 @Component({
   tag: 'todo-list',
-  styleUrls: ['./todo-list-1.css', './todo-list-2.css']
+  styleUrls: ['./todo-list-1.css', './todo-list-2.css'],
 })
 export class TodoList {
   // implementation omitted
@@ -278,14 +290,16 @@ import { Component } from '@rindo/core';
 @Component({
   tag: 'todo-list',
   styleUrls: {
-     ios: 'todo-list-1.ios.scss',
-     md: 'todo-list-2.md.scss',
-  }
+    ios: 'todo-list-1.ios.scss',
+    md: 'todo-list-2.md.scss',
+  },
 })
 export class TodoList {
   // implementation omitted
 }
 ```
+
+Read more on styling modes in the Components [Styling](./styling.md#style-modes) section.
 
 ### styles
 
@@ -301,12 +315,13 @@ When using `styles`, only CSS is permitted.
 See [`styleUrl`](#styleurl) if you need more advanced features.
 
 **Example**:<br/>
-```tsx 
+
+```tsx
 import { Component } from '@rindo/core';
 
 @Component({
   tag: 'todo-list',
-  styles: 'div { background-color: #fff }'
+  styles: 'div { background-color: #fff }',
 })
 export class TodoList {
   // implementation omitted
@@ -323,15 +338,13 @@ Here's an example of using a component within another component:
 import { Component, Prop, h } from '@rindo/core';
 
 @Component({
-  tag: 'my-embedded-component'
+  tag: 'my-embedded-component',
 })
 export class MyEmbeddedComponent {
   @Prop() color: string = 'blue';
 
   render() {
-    return (
-      <div>My favorite color is {this.color}</div>
-    );
+    return <div>My favorite color is {this.color}</div>;
   }
 }
 ```
@@ -340,10 +353,9 @@ export class MyEmbeddedComponent {
 import { Component, h } from '@rindo/core';
 
 @Component({
-  tag: 'my-parent-component'
+  tag: 'my-parent-component',
 })
 export class MyParentComponent {
-
   render() {
     return (
       <div>

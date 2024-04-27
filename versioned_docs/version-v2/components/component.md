@@ -219,7 +219,7 @@ export class TodoList {
 
 **Details:**<br/>
 Relative URL to an external stylesheet containing styles to apply to your component.
-By out of the box, Rindo will only process CSS files (files ending with `.css`).
+Out of the box, Rindo will only process CSS files (files ending with `.css`).
 Support for additional CSS variants, like Sass, can be added via [a plugin](https://rindojs.web.app/docs/plugins#related-plugins).
 
 **Example**:<br/>
@@ -255,9 +255,8 @@ export class TodoList {
 A list of relative URLs to external stylesheets containing styles to apply to your component.
 
 Alternatively, an object can be provided that maps a named "mode" to one or more stylesheets.
-This 
 
-By out of the box, Rindo will only process CSS files (ending with `.css`).
+Out of the box, Rindo will only process CSS files (ending with `.css`).
 Support for additional CSS variants, like Sass, can be added via [a plugin](https://rindojs.web.app/docs/plugins#related-plugins).
 
 **Example**:<br/>
@@ -298,6 +297,8 @@ export class TodoList {
   // implementation omitted
 }
 ```
+
+Read more on styling modes in the Components [Styling](./styling.md#style-modes) section.
 
 ### styles
 

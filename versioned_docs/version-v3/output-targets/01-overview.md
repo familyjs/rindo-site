@@ -9,16 +9,11 @@ slug: /output-targets
 
 One of the more powerful features of the compiler is its ability to generate various builds depending on _"how"_ the components are going to be used. Rindo is able to take an app's source and compile it to numerous targets, such as a webapp to be deployed on an http server, as a third-party component lazy-loaded library to be distributed on [npm](https://www.npmjs.com/), or a vanilla custom elements bundle. By default, Rindo apps have an output target type of `www`, which is best suited for a webapp.
 
-
 ## Output Target Types:
- - [`dist`: Distribution](./dist.md)
- - [`www`: Website](./www.md)
- - [`dist-custom-elements`: Custom Elements](./custom-elements.md)
- - [`stats`: Stats about the compiled files](./docs-stats.md)
- - [`docs-readme`: Documentation readme files formatted in markdown](./docs-readme.md)
- - [`docs-json`: Documentation data formatted in JSON](./docs-json.md)
- - [`docs-custom`: Custom documentation generation](./docs-custom.md)
- - [`docs-vscode`: Documentation generation for VS Code](./docs-vscode.md)
+
+- [`dist`: Distribution](./dist.md)
+- [`www`: Website](./www.md)
+- [`dist-custom-elements`: Custom Elements](./custom-elements.md)
 
 ## Example:
 
@@ -28,15 +23,14 @@ import { Config } from '@rindo/core';
 export const config: Config = {
   outputTargets: [
     {
-      type: 'dist'
+      type: 'dist',
     },
     {
-      type: 'www'
-    }
-  ]
+      type: 'www',
+    },
+  ],
 };
 ```
-
 
 ## Differential Bundling
 
@@ -45,7 +39,7 @@ It's also important to note that the compiler will automatically generate the nu
 In the example below there are two script tags, however, only one of them will be requested by the user. For IE11 users, they'll download the `app.js` file which is in the `ES5` syntax and has all the polyfills. For users on modern browsers, they will only download the `app.esm.js` file which uses up-to-date JavaScript features such as [ES modules](https://developers.google.com/web/fundamentals/primers/modules), [dynamic imports](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#Dynamic_Import), [async/await](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Async_await), [Classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes), etc.
 
 :::note
-[buildEs5](../config/01-overview.md#buildes5) must be set to true to generate the IE11 ES5 file 
+[buildEs5](../config/01-overview.md#buildes5) must be set to true to generate the IE11 ES5 file
 :::
 
 ```markup
@@ -57,32 +51,36 @@ In the example below there are two script tags, however, only one of them will b
 As of Rindo v3, legacy browser support is deprecated, and will be removed in a future major version of Rindo.
 :::
 
+## Primary Package Output Target Validation
 
-## Docs Auto-Generation
+If `validatePrimaryPackageOutputTarget: true` is set in your project's [Rindo config](../config/01-overview.md#validateprimarypackageoutputtarget) Rindo will
+attempt to validate certain fields in your `package.json` that correspond with the generated distribution code. Because Rindo can output many different formats
+from a single project, it can only validate that the `package.json` has field values that align with one of the specified output targets in your project's config.
+So, Rindo allows you to designate which output target should be used for this validation and thus which will be the default distribution when bundling you
+project.
 
-As apps scale with more and more components, and team size and members continue to adjust over time, it's vital all components are well documented, and that the documentation itself is maintained. Maintaining documentation is right up there with some of the least interesting things developers must do, but that doesn't mean it can't be made easier.
+This behavior only affects a small subset of output targets so a flag exists on the following targets that are eligible for this level of validation: `dist`, `dist-types`,
+`dist-collection`, and `dist-custom-elements`. For any of these output targets, you can configure the target to be validated as follows:
 
-Throughout the build process, the compiler is able to extract documentation from each component, to include JSDocs comments, types of each member on the component (thanks TypeScript!) and CSS Variables (CSS Custom Properties).
-
-
-### Component Property Docs Example:
-
-To add a description to a `@Prop`, simply add a comment on the previous line:
-
-```tsx
-/** (optional) The icon to display */
-@Prop() iconType = "";
+```ts title='rindo.config.ts'
+import { Config } from '@rindo/core';
+export const config: Config = {
+  ...,
+  outputTargets: [
+    {
+      type: 'dist',
+      // This flag is what tells Rindo to use this target for validation
+      isPrimaryPackageOutputTarget: true,
+      ...
+    },
+    ...
+  ],
+  // If this is not set, Rindo will not validate any targets
+  validatePrimaryPackageOutputTarget: true,
+};
 ```
 
-### CSS Example:
-
-Rindo will also document CSS variables when you specify them via jsdoc-style comments inside your css or scss files:
-
-```css
- :root {
-   /**
-    * @prop --primary: Primary header color.
-    */
-   --primary: blue;
- }
-```
+:::note
+Rindo can only validate one of these output targets for your build. If multiple output targets are marked for validation, Rindo will use
+the first designated target in the array and ignore all others.
+:::

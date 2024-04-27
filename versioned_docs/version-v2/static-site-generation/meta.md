@@ -26,6 +26,6 @@ import { PrerenderConfig } from '@rindo/core';
 export const config: PrerenderConfig = {
   afterHydrate(document, url) {
     document.title = url.pathname;
-  }
+  },
 };
 ```

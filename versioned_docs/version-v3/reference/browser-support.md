@@ -13,36 +13,32 @@ Rindo builds Web Components that run natively or near-natively in all widely use
   <div className="bs-chart__group">
     <div className="bs-chart__cards">
       <div className="bs-chart__card">
-        <nav-icon name="checkmark"></nav-icon>
+        <fml-icon name="checkmark"></fml-icon>
         Chrome 79+
       </div>
       <div className="bs-chart__card">
-        <nav-icon name="checkmark"></nav-icon>
-        Safari 14+  
+        <fml-icon name="checkmark"></fml-icon>
+        Safari 14+
       </div>
       <div className="bs-chart__card">
-        <nav-icon name="checkmark"></nav-icon>
+        <fml-icon name="checkmark"></fml-icon>
         Firefox 70+
       </div>
       <div className="bs-chart__card">
-        <nav-icon name="checkmark"></nav-icon>
+        <fml-icon name="checkmark"></fml-icon>
         Edge 79+
       </div>
     </div>
-    <div className="bs-chart__group-label">
-      Full native support
-    </div>
+    <div className="bs-chart__group-label">Full native support</div>
   </div>
   <div className="bs-chart__group">
     <div className="bs-chart__cards">
       <div className="bs-chart__card">
-        <nav-icon name="checkmark"></nav-icon>
+        <fml-icon name="checkmark"></fml-icon>
         IE 11, Edge 16-18
       </div>
     </div>
-    <div className="bs-chart__group-label">
-      Deprecated in Rindo v3.
-    </div>
+    <div className="bs-chart__group-label">Deprecated in Rindo v3.</div>
   </div>
 </div>
 
@@ -54,13 +50,13 @@ For browsers without native support, a small polyfill helps developers use Custo
 
 Rindo uses a dynamic loader to load the custom elements polyfill only on browsers that need it. With this polyfill Rindo's browser support is Chrome (and all chrome based browsers), Safari, Firefox, Edge, and IE11.
 
-|                                                                |               Chrome 79+               |               Safari 14+               |              Firefox 70+               |                Edge 79+                | Edge 16-18                             | IE 11                               |
-| -------------------------------------------------------------- |:--------------------------------------:|:--------------------------------------:|:--------------------------------------:|:--------------------------------------:| :------------------------------------: | :---------------------------------: |
-| [CSS Variables](https://caniuse.com/#feat=css-variables)       | ✅ | ✅ | ✅ | ✅ | ✅ | ⚠️ |
-| [Custom Elements](https://caniuse.com/#feat=custom-elementsv1) | ✅ | ✅ | ✅ | ✅ | ⚠️    | ⚠️ |
-| [Shadow Dom](https://caniuse.com/#feat=shadowdomv1)            | ✅ | ✅ | ✅ | ✅ | ⚠️    | ⚠️ |
-| [es2017](https://caniuse.com/#feat=async-functions)            | ✅ | ✅ | ✅ | ✅ | ✅ | ⚠️ |
-| [ES Modules](https://caniuse.com/#feat=es6-module)             | ✅ | ✅ | ✅ | ✅ | ✅ | ⚠️ |
+|                                                                | Chrome 79+ | Safari 14+ | Firefox 70+ | Edge 79+ | Edge 16-18 | IE 11 |
+| -------------------------------------------------------------- | :--------: | :--------: | :---------: | :------: | :--------: | :---: |
+| [CSS Variables](https://caniuse.com/#feat=css-variables)       |     ✅     |     ✅     |     ✅      |    ✅    |     ✅     |  ⚠️   |
+| [Custom Elements](https://caniuse.com/#feat=custom-elementsv1) |     ✅     |     ✅     |     ✅      |    ✅    |     ⚠️     |  ⚠️   |
+| [Shadow Dom](https://caniuse.com/#feat=shadowdomv1)            |     ✅     |     ✅     |     ✅      |    ✅    |     ⚠️     |  ⚠️   |
+| [es2017](https://caniuse.com/#feat=async-functions)            |     ✅     |     ✅     |     ✅      |    ✅    |     ✅     |  ⚠️   |
+| [ES Modules](https://caniuse.com/#feat=es6-module)             |     ✅     |     ✅     |     ✅      |    ✅    |     ✅     |  ⚠️   |
 
 <div className="align-right">
   ⚠️ <span className="caption">Rindo compiles with polyfills for features not supported natively</span>

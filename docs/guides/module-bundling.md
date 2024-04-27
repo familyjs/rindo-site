@@ -11,21 +11,20 @@ Rindo uses [Rollup](https://rollupjs.org/guide/en/) under the hood to bundle you
 
 ## One Component Per Module
 
-For Rindo to bundle your components most efficiently, you must declare a single component (class decorated with `@Component`) per *TypeScript* file, and the component itself **must** have a unique `export`. By doing so, Rindo is able to easily analyze the entire component graph within the app, and best understand how components should be bundled together. Under-the-hood it uses the Rollup bundler to efficiently bundled shared code together. Additionally, lazy-loading is a default feature of Rindo, so code-splitting is already happening automatically, and only dynamically importing components which are being used on the page.
+For Rindo to bundle your components most efficiently, you must declare a single component (class decorated with `@Component`) per _TypeScript_ file, and the component itself **must** have a unique `export`. By doing so, Rindo is able to easily analyze the entire component graph within the app, and best understand how components should be bundled together. Under-the-hood it uses the Rollup bundler to efficiently bundled shared code together. Additionally, lazy-loading is a default feature of Rindo, so code-splitting is already happening automatically, and only dynamically importing components which are being used on the page.
 
 Modules that contain a component are entry-points, which means that no other module should import anything from them.
 
 The following example is **NOT** valid:
 
-**src/components/my-cmp.tsx:**
-```tsx
+```tsx title="src/components/my-cmp.tsx"
 // This module has a component, you cannot export anything else
 export function someUtilFunction() {
   console.log('do stuff');
 }
 
 @Component({
-  tag: 'my-cmp'
+  tag: 'my-cmp',
 })
 export class MyCmp {}
 ```
@@ -44,34 +43,29 @@ In this case, the compiler will emit an error that looks like this:
 
 The solution is to move any shared functions or classes to a different `.ts` file, like this:
 
-**src/utils.ts:**
-```tsx
+```tsx title="src/utils.ts"
 export function someUtilFunction() {
   console.log('do stuff');
 }
 ```
 
-**src/components/my-cmp.tsx:**
-```tsx
+```tsx title="src/components/my-cmp.tsx"
 import { someUtilFunction } from '../utils.ts';
 
 @Component({
-  tag: 'my-cmp'
+  tag: 'my-cmp',
 })
 export class MyCmp {}
 ```
 
-**src/components/my-cmp-two.tsx:**
-
-```tsx
+```tsx title="src/components/my-cmp-two.tsx"
 import { someUtilFunction } from '../utils.ts';
 
 @Component({
-  tag: 'my-cmp-two'
+  tag: 'my-cmp-two',
 })
 export class MyCmpTwo {}
 ```
-
 
 ## CommonJS Dependencies
 
@@ -81,40 +75,7 @@ Since CommonJS libraries are still common today, Rindo comes with [`rollup-plugi
 
 At compiler-time, the `rollup-plugin-commonjs` plugin does a best-effort to **transform CommonJS into ESM**, but this is not always an easy task. CommonJS is dynamic by nature, while ESM is static by design.
 
-Rindo's config exposes a `commonjs` property that is passed down to the Rollup CommonJS plugin, you can use this setting to work around certain bundling issues.
-
-### NamedModules: X is not exported by X
-
-Sometimes, Rollup is unable to properly static analyze CommonJS modules, and it misses some named exports. Fortunately, there is a workaround we can use.
-
-As we already know, `rindo.config.ts` exposes a `commonjs` property, in this case, we can take advantage of [the `namedExports` property](https://github.com/rollup/rollup-plugin-commonjs#custom-named-exports).
-
-Let's say, Rollup fails, when trying to use the `hello` named export of the `commonjs-dep` module:
-
-```tsx
-// NamedModules: hello is not exported by commonjs-dep
-import { hello } from 'commonjs-dep';
-```
-
-We can use the `config.commonjs.namedExports` setting in the `rindo.config.ts` file to work around the issue:
-
-```tsx
-export const config = {
-  commonjs: {
-    namedExports: {
-       // commonjs-dep has a "hello" export
-      'commonjs-dep': ['hello']
-    }
-  }
-}
-```
-
-:::note
-We can set a map of `namedExports` for problematic dependencies, in this case, we are explicitly defining the named `hello` export in the `commonjs-dep` module.
-:::
-
-For further information, check out the [rollup-plugin-commonjs docs](https://github.com/rollup/rollup-plugin-commonjs).
-
+For further information, check out the [rollup-plugin-commonjs docs](https://github.com/rollup/plugins/tree/master/packages/commonjs).
 
 ## Custom Rollup plugins
 
@@ -125,18 +86,17 @@ export const config = {
   rollupPlugins: {
     before: [
       // Plugins injected before rollupNodeResolve()
-      resolvePlugin()
+      resolvePlugin(),
     ],
     after: [
       // Plugins injected after commonjs()
-      nodePolyfills()
-    ]
-  }
-}
+      nodePolyfills(),
+    ],
+  },
+};
 ```
 
 As a rule of thumb, plugins that need to resolve modules, should be place in `before`, while code transform plugins like: `node-polyfills`, `replace`... should be placed in `after`. Follow the plugin's documentation to make sure it's executed in the right order.
-
 
 ## Node Polyfills
 
@@ -166,10 +126,8 @@ import nodePolyfills from 'rollup-plugin-node-polyfills';
 export const config: Config = {
   namespace: 'mycomponents',
   rollupPlugins: {
-    after: [
-      nodePolyfills(),
-    ]
-  }
+    after: [nodePolyfills()],
+  },
 };
 ```
 
@@ -183,4 +141,4 @@ ES modules are always parsed in strict mode. That means that certain non-strict 
 
 Luckily, there is absolutely no good reason not to use strict mode for everything — so the solution to this problem is to lobby the authors of those modules to update them.
 
-*Source: [https://github.com/rollup/rollup-plugin-commonjs#strict-mode](https://github.com/rollup/rollup-plugin-commonjs#strict-mode)*
+_Source: [https://github.com/rollup/rollup-plugin-commonjs#strict-mode](https://github.com/rollup/rollup-plugin-commonjs#strict-mode)_

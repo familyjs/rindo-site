@@ -71,7 +71,7 @@ div {
 }
 ```
 
-As of Rindo v3.0.0, support for IE 11, Edge <= 18, and Safari 10 has begun to
+As of Rindo v3.0.0, support for IE 11, Edge &lt;= 18, and Safari 10 has begun to
 reach end-of-life. While this flag and its supporting functionality is
 currently available, it will be removed in a future version of Rindo.
 
@@ -82,7 +82,7 @@ Dynamic `import()` shim. This is only needed for Edge 18 and below, and Firefox
 moved to Chromium) then it's recommended to set `dynamicImportShim` to `false`.
 Defaults to `false`.
 
-As of Rindo v3.0.0, support for IE 11, Edge <= 18, and Safari 10 has begun to
+As of Rindo v3.0.0, support for IE 11, Edge &lt;= 18, and Safari 10 has begun to
 reach end-of-life. While this flag and its supporting functionality is
 currently available, it will be removed in a future version of Rindo.
 
@@ -132,8 +132,8 @@ Defaults to `false`.
 
 Dispatches component lifecycle events. By default these events are not dispatched, but by enabling this to `true` these events can be listened for on `window`. Mainly used for testing.
 
-| Event Name                    | Description                                            |
-| ----------------------------- | ------------------------------------------------------ |
+| Event Name                  | Description                                            |
+| --------------------------- | ------------------------------------------------------ |
 | `rindo_componentWillLoad`   | Dispatched for each component's `componentWillLoad`.   |
 | `rindo_componentWillUpdate` | Dispatched for each component's `componentWillUpdate`. |
 | `rindo_componentWillRender` | Dispatched for each component's `componentWillRender`. |
@@ -169,7 +169,7 @@ the browser then it does not request the shim. Setting to `false` will avoid
 all shadow dom tests. If the app does not need to support IE11 or Edge 18 and
 below, it's recommended to set `shadowDomShim` to `false`. Defaults to `false`.
 
-As of Rindo v3.0.0, support for IE 11, Edge <= 18, and Safari 10 has begun to
+As of Rindo v3.0.0, support for IE 11, Edge &lt;= 18, and Safari 10 has begun to
 reach end-of-life. While this flag and its supporting functionality is
 currently available, it will be removed in a future version of Rindo.
 

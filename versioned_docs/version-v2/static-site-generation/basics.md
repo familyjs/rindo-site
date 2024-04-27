@@ -49,7 +49,6 @@ As each page is generated and new links are found, Rindo will continue to crawl 
 
 See the [prerender config](./prerender-config.md) docs to see how this can be customized further.
 
-
 ## Things to Watch For
 
 There may be some areas of your code that should absolutely not run while prerendering. To help avoid certain code Rindo provides a `Build.isBrowser` build conditional to tell prerendering to skip over. Here is an example of how to use this utility:

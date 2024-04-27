@@ -16,10 +16,9 @@ import { Component, Build } from '@rindo/core';
 
 @Component({
   tag: 'rindo-app',
-  styleUrl: 'rindo-app.css'
+  styleUrl: 'rindo-app.css',
 })
 export class RindoApp {
-
   componentDidLoad() {
     if (Build.isDev) {
       console.log('im in dev mode');

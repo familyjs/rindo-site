@@ -34,10 +34,8 @@ Rindo uses Workbox underneath, and by default generates a service worker from a 
 
 ```tsx
 {
-  globPatterns: [
-    '**/*.{js,css,json,html}'
-  ]
-};
+  globPatterns: ['**/*.{js,css,json,html}'];
+}
 ```
 
 This configuration does pre-caching of all of your app's assets.
@@ -52,12 +50,10 @@ export const config: Config = {
     {
       type: 'www',
       serviceWorker: {
-        globPatterns: [
-          '**/*.{js,css,json,html,ico,png}'
-        ]
-      }
-    }
-  ]
+        globPatterns: ['**/*.{js,css,json,html,ico,png}'],
+      },
+    },
+  ],
 };
 ```
 
@@ -72,9 +68,9 @@ export const config: Config = {
   outputTargets: [
     {
       type: 'www',
-      serviceWorker: null
-    }
-  ]
+      serviceWorker: null,
+    },
+  ],
 };
 ```
 
@@ -94,10 +90,10 @@ export const config: Config = {
     {
       type: 'www',
       serviceWorker: {
-        swSrc: 'src/sw.js'
-      }
-    }
-  ]
+        swSrc: 'src/sw.js',
+      },
+    },
+  ],
 };
 ```
 
@@ -150,13 +146,13 @@ async onServiceWorkerUpdate() {
 }
 ```
 
-The `swUpdate` event is emitted by Rindo every time a new service worker is installed. When a service worker is waiting for registration, the toast is shown. After clicking the reload button, a message is posted to the waiting service worker, letting it know to take over. This message needs to be handled by the service worker; therefore we need to create a custome one (e. g. `src/sw.js`) and add a listener to call `skipWaiting()`.
+The `swUpdate` event is emitted by Rindo every time a new service worker is installed. When a service worker is waiting for registration, the toast is shown. After clicking the reload button, a message is posted to the waiting service worker, letting it know to take over. This message needs to be handled by the service worker; therefore we need to create a custom one (e. g. `src/sw.js`) and add a listener to call `skipWaiting()`.
 
 ```tsx
-importScripts("workbox-v4.3.1/workbox-sw.js");
+importScripts('workbox-v4.3.1/workbox-sw.js');
 
-self.addEventListener("message", ({ data }) => {
-  if (data === "skipWaiting") {
+self.addEventListener('message', ({ data }) => {
+  if (data === 'skipWaiting') {
     self.skipWaiting();
   }
 });
@@ -193,7 +189,7 @@ A common use case for custom service workers is to handle browser push notificat
 
 ```tsx
 if ('Notification' in window && 'serviceWorker' in navigator) {
-  Notification.requestPermission(status => {
+  Notification.requestPermission((status) => {
     // status will either be 'default', 'granted' or 'denied'
     console.log(`Notification permissions have been ${status}`);
   });
@@ -211,7 +207,7 @@ self.registration.showNotification('Hakuna matata.');
 Usually we will have a backend that will send out push notifications to clients, and we want our service worker to handle them. To do that, we can register an event listener in our worker for the `push` event. The event will be of type [`PushEvent`](https://developer.mozilla.org/en-US/docs/Web/API/PushEvent) and have a `data` field of type [`PushMessageData`](https://developer.mozilla.org/en-US/docs/Web/API/PushMessageData).
 
 ```tsx
-self.addEventListener('push', event => {
+self.addEventListener('push', (event) => {
   console.log(`Push received with data "${event.data.text()}"`);
 
   const title = 'Push Notification';
@@ -233,7 +229,7 @@ If the data is a JSON string, then `data.json()` can be used to immediately get 
 Furthermore, we will likely want to handle notification clicks. The API provides the events `notificationclick` and `notificationclose` for that.
 
 ```tsx
-self.addEventListener('notificationclick', event => {
+self.addEventListener('notificationclick', (event) => {
   const notification = event.notification;
   const action = event.action;
 
@@ -259,9 +255,7 @@ async function subscribeUser() {
   if ('serviceWorker' in navigator) {
     const registration = await navigator.serviceWorker.ready;
 
-    const subscription = await registration.pushManager
-      .subscribe({ userVisibleOnly: true })
-      .catch(console.error);
+    const subscription = await registration.pushManager.subscribe({ userVisibleOnly: true }).catch(console.error);
 
     if (!subscription) {
       return;
@@ -276,7 +270,7 @@ async function subscribeUser() {
 We should also check our subscription every time our app is accessed, because the subscription object can change.
 
 ```tsx
-self.registration.pushManager.getSubscription().then(subscription => {
+self.registration.pushManager.getSubscription().then((subscription) => {
   if (!subscription) {
     // ask the user to register for push
     return;
@@ -289,5 +283,5 @@ self.registration.pushManager.getSubscription().then(subscription => {
 
 ### Further Reading
 
-* For more information on push notifications and the related APIs please refer to the [Web Fundamentals Introduction to Push Notifications](https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications) and the [MDN Push API docs](https://developer.mozilla.org/en-US/docs/Web/API/Push_API).
-* [This Twitter thread by David Brunelle](https://twitter.com/davidbrunelle/status/1073394572980453376) explains how to implement versioning in your PWA in order to handle breaking API changes. The problem here is that your service worker enabled app will continue to serve an outdated (cached) app against your updated API. In order to solve this a version check can be implemented.
+- For more information on push notifications and the related APIs please refer to the [Web Fundamentals Introduction to Push Notifications](https://developers.google.com/web/ilt/pwa/introduction-to-push-notifications) and the [MDN Push API docs](https://developer.mozilla.org/en-US/docs/Web/API/Push_API).
+- [This Twitter thread by David Brunelle](https://twitter.com/davidbrunelle/status/1073394572980453376) explains how to implement versioning in your PWA in order to handle breaking API changes. The problem here is that your service worker enabled app will continue to serve an outdated (cached) app against your updated API. In order to solve this a version check can be implemented.

@@ -14,7 +14,7 @@ box. Rindo offers both unit testing and end-to-end testing capabilities.
 
 Testing within Rindo is broken up into two distinct types: Unit tests and End-to-end (e2e) tests.
 
-There are several philosophies on how testing should be done, and how to differentiate what should be considered a unit 
+There are several philosophies on how testing should be done, and how to differentiate what should be considered a unit
 test versus an end-to-end test. Rindo takes an opinionated stance so developers have a description of each to better
 choose when to use each type of testing:
 
@@ -37,12 +37,13 @@ developers to install both libraries using their preferred package manager.
 If you created a project using `npm init rindo`, these libraries were installed for you. Depending on when your
 project was created, you may or may not have the latest supported version installed.
 
-To view current version support for both Jest and Puppeteer, please see the 
+To view current version support for both Jest and Puppeteer, please see the
 [Rindo support policy for testing libraries](../reference/support-policy.md#testing-libraries).
 
 ## Testing Commands
 
 Rindo tests are run using the command `rindo test`, followed by one or more optional flags:
+
 - `--spec` to run unit tests
 - `--e2e` to run end-to-end tests
 - `--watchAll` to watch the file system for changes, and rerun tests when changes are detected
@@ -53,19 +54,20 @@ Below a series of example `npm` scripts which can be added to the project's `pac
 
 ```json
 {
-    "scripts": {
-      "test": "rindo test --spec",
-      "test.watch": "rindo test --spec --watchAll",
-      "test.end-to-end": "rindo test --e2e"
-    }
+  "scripts": {
+    "test": "rindo test --spec",
+    "test.watch": "rindo test --spec --watchAll",
+    "test.end-to-end": "rindo test --e2e"
+  }
 }
 ```
 
-Each command above begins with `rindo test`, which tells Rindo to run tests. Note that each `rindo test` command 
+Each command above begins with `rindo test`, which tells Rindo to run tests. Note that each `rindo test` command
 in example above is followed one or more of the optional flags. Looking at each script, one at a time:
+
 - the `test` script runs unit tests for our Rindo project.
 - the `test.watch` script runs unit tests for our Rindo project. It watches the filesystem for changes, and reruns
-tests when changes are detected.
+  tests when changes are detected.
 - the `test.end-to-end` script runs the end-to-end tests for our Rindo project.
 
 If you created a project using `npm init rindo`, these scripts are provided to you automatically.
@@ -76,7 +78,7 @@ your tests should be run.
 
 ### Testing Configuration
 
-Rindo will apply defaults from data it has already gathered. For example, Rindo already knows what directories to look through, and what files are spec and e2e files. Jest can still be configured using the same config names, but now using the rindo config `testing` property. Please see the [Testing Config docs](./config.md#testing-config) for more info.
+Rindo will apply defaults from data it has already gathered. For example, Rindo already knows what directories to look through, and what files are spec and e2e files. Jest can still be configured using the same config names, but now using the rindo config `testing` property. Please see the [Testing Config docs](./config.md) for more info.
 
 ```tsx
 import { Config } from '@rindo/core';
@@ -88,15 +90,36 @@ export const config: Config = {
 };
 ```
 
+### Command Line Arguments
+
+While the Rindo CLI offers a certain set of command line flags to specify e.g. which types of tests to run, you also have access to all Jest options through the CLI. For example to specify a single test, you can pass in a positional argument to Jest by adding a `--`, e.g.:
+
+```sh
+# run a single unit test
+npx rindo test --spec -- src/components/my-component/my-component.spec.ts
+# run a single e2e test
+npx rindo test --e2e -- src/components/my-component/my-component.e2e.ts
+```
+
+Next to positional arguments, Rindo also passes along [certain](https://github.com/familyjs/rindo/blob/1fade6dcf2b0543e2102d8237435d034126a411e/src/cli/config-flags.ts#L38-L85) Jest specific flags, e.g.:
+
+```sh
+# enable code coverage
+npx rindo test --spec --coverage
+```
+
+You can find more information about [Jest CLI options](https://jestjs.io/docs/cli) in the project documentation.
+
 ## Running and Debugging Tests in VS Code
 
 Adding the following configurations to `.vscode/launch.json` will allow you to use the VS Code Debugger to run the Rindo test runner for the currently active file in your editor.
 
 To use the below configuration:
+
 1. Ensure the test file you want to run is open and in the current active window in VS Code.
 2. Select the debug configuration to run:
-    1. 'E2E Test Current File' will run the end-to-end tests in the active test file
-    2. 'Spec Test Current File' will run the spec tests in the active test file
+   1. 'E2E Test Current File' will run the end-to-end tests in the active test file
+   2. 'Spec Test Current File' will run the spec tests in the active test file
 3. Hit the play button to start the test.
 
 ```json title=".vscode/launch.json"

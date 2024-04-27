@@ -43,12 +43,12 @@ The generated bundle will export each component class and will already have the 
 
 ## Making Assets Available
 
-For performance reasons, the generated bundle does not include [local assets](../guides/assets.md) built within the JavaScript output, 
+For performance reasons, the generated bundle does not include [local assets](../guides/assets.md) built within the JavaScript output,
 but instead it's recommended to keep static assets as external files. By keeping them external this ensures they can be requested on-demand, rather
-than either welding their content into the JS file, or adding many URLs for the bundler to add to the output. 
+than either welding their content into the JS file, or adding many URLs for the bundler to add to the output.
 One method to ensure [local assets](../guides/assets.md) are available to external builds and http servers is to set the asset path using `setAssetPath()`.
 
-The `setAssetPath()` function is used to manually set the base path where static assets can be found. 
+The `setAssetPath()` function is used to manually set the base path where static assets can be found.
 For the lazy-loaded output target the asset path is automatically set and assets copied to the correct
 build directory. However, for custom elements builds, the `setAssetPath(path)` should be
 used to customize the asset path depending on where they are found on the http server.
@@ -57,7 +57,6 @@ If the component's script is a `type="module"`, it's recommended to use `import.
 as `setAssetPath(import.meta.url)`. Other options include `setAssetPath(document.currentScript.src)`, or using a bundler's replace plugin to
 dynamically set the path at build time, such as `setAssetPath(process.env.ASSET_PATH)`.
 
-
 ```tsx
 import { defineCustomElements, setAssetPath } from 'my-library/dist/custom-elements';
 
@@ -65,8 +64,8 @@ setAssetPath(document.currentScript.src);
 defineCustomElements();
 ```
 
-Make sure to copy the assets over to a public directory in your app.  This configuration depends on how your script is bundled, or lack of
-bundling, and where your assets can be loaded from. How the files are copied to the production build directory depends on the bundler or tooling. 
+Make sure to copy the assets over to a public directory in your app. This configuration depends on how your script is bundled, or lack of
+bundling, and where your assets can be loaded from. How the files are copied to the production build directory depends on the bundler or tooling.
 The configs below provide examples of how to do this automatically with popular bundlers.
 
 ## Distributing Custom Elements

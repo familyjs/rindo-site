@@ -63,11 +63,11 @@ export const config: Config = {
 };
 ```
 
-| Option                        | Description                                                                                                                                                                                                                                                                                                                                                                                               |
-| ----------------------------- |-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `default`                     | No additional re-export or auto-definition behavior will be performed.<br/><br/>This value will be used if no explicit value is set in the config, or if a given value is not a valid option.                                                                                                                                                                                                             |
-| `auto-define-custom-elements` | A component and its children will be automatically defined with the `CustomElementRegistry` when the component's module is imported.                                                                                                                                                                                                                                                                      |
-| `bundle`                      | A utility `defineCustomElements()` function is exported from the `index.js` file of the output directory. This function can be used to quickly define all Rindo components in a project on the custom elements registry.                                                                                                                                                                                |
+| Option                        | Description                                                                                                                                                                                                                                                                     |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `default`                     | No additional re-export or auto-definition behavior will be performed.<br/><br/>This value will be used if no explicit value is set in the config, or if a given value is not a valid option.                                                                                   |
+| `auto-define-custom-elements` | A component and its children will be automatically defined with the `CustomElementRegistry` when the component's module is imported.                                                                                                                                            |
+| `bundle`                      | A utility `defineCustomElements()` function is exported from the `index.js` file of the output directory. This function can be used to quickly define all Rindo components in a project on the custom elements registry.                                                        |
 | `single-export-module`        | All component and custom element definition helper functions will be exported from the `index.js` file in the output directory. This file can be used as the root module when distributing your component library, see [below](#distributing-custom-elements) for more details. |
 
 :::note
@@ -115,6 +115,13 @@ _default: `false`_
 
 Setting this flag to `true` will include [global scripts](../config/01-overview.md#globalscript) in the bundle and execute them once the bundle entry point in loaded.
 
+### isPrimaryPackageOutputTarget
+
+_default: `false`_
+
+If `true`, this output target will be used to validate `package.json` fields for your project's distribution. See the overview of [primary package output target validation](./01-overview.md#primary-package-output-target-validation)
+for more information.
+
 ### minify
 
 _default: `false`_
@@ -149,7 +156,7 @@ The contents may look different if [`customElementsExportBehavior`](#customeleme
 
 ## Making Assets Available
 
-For performance reasons, the generated bundle does not include [local assets](../guides/assets.md) built within the JavaScript output, 
+For performance reasons, the generated bundle does not include [local assets](../guides/assets.md) built within the JavaScript output,
 but instead it's recommended to keep static assets as external files. By keeping them external this ensures they can be requested on-demand, rather
 than either welding their content into the JS file, or adding many URLs for the bundler to add to the output.
 One method to ensure [assets](../guides/assets.md) are available to external builds and http servers is to set the asset path using `setAssetPath()`.
@@ -212,9 +219,9 @@ it's up to you to choose which one of them should be available in the
 `module` entry.
 :::
 
-### Usage in Typescript
+### Usage in TypeScript
 
-If you plan to support consuming your component library in Typescript you'll
+If you plan to support consuming your component library in TypeScript you'll
 need to set `generateTypeDeclarations: true` on the your output target in
 `rindo.config.ts`, like so:
 

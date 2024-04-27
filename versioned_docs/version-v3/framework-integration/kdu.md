@@ -27,15 +27,15 @@ An example project set-up may look similar to:
 top-most-directory/
 └── packages/
     ├── kdu-library/
-    │   └── src/
-    │       ├── lib/
+    │   └── lib/
+    │       ├── plugin.ts
     │       └── index.ts
     └── rindo-library/
         ├── rindo.config.js
         └── src/components
 ```
 
-This guide uses Lerna for the monorepo, but you can use other solutions such as Nx, TurboRepo, etc.
+This guide uses Lerna for the monorepo, but you can use other solutions such as Nx, Turborepo, etc.
 
 To use Lerna with this walk through, globally install Lerna:
 
@@ -138,11 +138,15 @@ Update the generated `package.json` in your `kdu-library`, adding the following 
 -  "main": "lib/kdu-library.js",
 +  "main": "dist/index.js",
 +  "types": "dist/index.d.ts",
+  "files": [
+-    'lib'
++    'dist'
+  ],
   "scripts": {
 -    "test": "echo \"Error: run tests from root\" && exit 1"
 +    "test": "echo \"Error: run tests from root\" && exit 1",
 +    "build": "npm run tsc",
-+    "tsc": "tsc -p ."
++    "tsc": "tsc -p . --outDir ./dist"
 -  }
 +  },
 +  "publishConfig": {
@@ -281,7 +285,7 @@ npm init kdu@3 my-app
 Follow the prompts and choose the options best for your project.
 
 You'll also need to link your Kdu component library as a dependency. This step makes it so your Kdu app will be able to correctly
-resolve imports from your Kdu library. This is easily done by modifying your Kdu app's `project.json` to include the following:
+resolve imports from your Kdu library. This is easily done by modifying your Kdu app's `package.json` to include the following:
 
 ```json
 "dependencies": {
@@ -528,6 +532,16 @@ using the `dir` property for `dist-custom-elements`, you need to also specify th
 [the API section](#customelementsdir) for more information.
 
 In addition, all the Web Components will be automatically defined as the generated component modules are bootstrapped.
+
+### TypeError: Cannot read properties of undefined (reading 'isProxied')
+
+If you encounter this error when running the Kdu application consuming your proxy components, you can set the [`enableImportInjection`](../config/extras.md#enableimportinjection)
+flag on the Rindo config's `extras` object. Once set, this will require you to rebuild the Rindo component library and the Kdu component library.
+
+:::note
+The `enableImportInjection` flag was introduced in Rindo v3.2.0. If you are running a previous version of Rindo, you can use the
+[`experimentalImportInjection`](../config/extras.md#experimentalimportinjection) flag.
+:::
 
 ### Kdu warns "Failed to resolve component: my-component"
 

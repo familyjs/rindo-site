@@ -10,10 +10,12 @@ slug: /getting-started
 ## Starting a New Project
 
 ### Prerequisites
-Rindo requires a recent LTS version of [NodeJS](https://nodejs.org/) and npm/yarn. 
+
+Rindo requires a recent LTS version of [NodeJS](https://nodejs.org/) and npm/yarn.
 Make sure you've installed and/or updated Node before continuing.
 
 ### Running the `create-rindo` CLI
+
 The `create-rindo` CLI can be used to scaffold a new Rindo project, and can be run using the following command:
 
 ```bash npm2yarn
@@ -27,12 +29,12 @@ Rindo can be used to create standalone components, or entire apps.
 ? Select a starter project.
 
 Starters marked as [community] are developed by the Rindo
-Community, rather than Family. For more information on the 
+Community, rather than Family. For more information on the
 Rindo Community, please see github.com/rindo-community
 
 ❯   component                Collection of web components that can be
                              used anywhere
-    app [community]          Minimal starter for building a Rindo 
+    app [community]          Minimal starter for building a Rindo
                              app or website
     family-pwa [community]   Family PWA starter with tabs layout and routes
 ```
@@ -50,6 +52,7 @@ Upon successfully creating our project, the CLI will print something similar to 
 
 ```bash
 ✔ Project name › my-first-rindo-project
+✔ A new git repo was initialized
 ✔ All setup  in 26 ms
 
   We suggest that you begin by typing:
@@ -69,17 +72,17 @@ Upon successfully creating our project, the CLI will print something similar to 
 
   Further reading:
 
-   - https://github.com/familijs/rindo-component-starter
+   - https://github.com/familyjs/rindo-component-starter
 
   Happy coding! 🎈
 ```
 
 The first section describes a few commands required to finish getting your project bootstrapped.
 
-```bash
-    $ cd my-first-rindo-project
-    $ npm install
-    $ npm start
+```bash npm2yarn
+cd my-first-rindo-project
+npm install
+npm start
 ```
 
 This will change your current directory to `my-first-rindo-project`, install your dependencies for you, and start the development server.
@@ -88,23 +91,30 @@ This will change your current directory to `my-first-rindo-project`, install you
 
 The second section of the `create-rindo` output describes a few useful commands available during the development process:
 
-- `npm start` starts a local development server. The development server will open a new browser tab containing your 
-project's components. The dev-server uses hot-module reloading to update your components in the browser as you modify
-them for a rapid feedback cycle.
+- `npm start` starts a local development server. The development server will open a new browser tab containing your
+  project's components. The dev-server uses hot-module reloading to update your components in the browser as you modify
+  them for a rapid feedback cycle.
 
 - `npm run build` creates a production-ready version of your components. The components generated in this step are not
-meant to be used in the local development server, but rather within a project that consumes your components.
+  meant to be used in the local development server, but rather within a project that consumes your components.
 
 - `npm test` runs your project's tests. The `create-rindo` CLI has created both end-to-end and unit tests when scaffolding your project.
 
-At this time, Rindo does not interact with any version control systems (VCS) when running the `create-rindo` CLI.
+### Source Control
+
+As of create-rindo v3.3.0, a new git repository will be automatically created for you when you initialize a project if:
+
+1. git is installed
+2. Your project is not created under another git work tree (e.g. if you create a new project in a monorepo, a new git repo will not be created)
+
+Versions of create-rindo prior to v3.3.0 do not interact with any version control systems (VCS).
 If you wish to place your project under version control, we recommend initializing your VCS now.
 If you wish to use git, run the following after changing your current directory to the root of your Rindo project:
 
 ```bash
 $ git init
 $ git add -A
-$ git commit -m "initialize project using rindo cli" 
+$ git commit -m "initialize project using rindo cli"
 ```
 
 ## My First Component
@@ -151,6 +161,7 @@ When rendered, the browser will display `Hello World! I'm Rindo 'Don't call me a
 Let's dive in and describe what's happening in `my-component`, line-by-line.
 
 After the import statements, the first piece we see is the [`@Component` decorator](../components/component.md):
+
 ```tsx
 @Component({
   tag: 'my-component',
@@ -158,9 +169,11 @@ After the import statements, the first piece we see is the [`@Component` decorat
   shadow: true,
 })
 ```
+
 This decorator provides metadata about our component to the Rindo compiler.
 Information, such as the custom element name (`tag`) to use, can be set here.
 This decorator tells Rindo to:
+
 - Set the [element's name](../components/component.md#tag) to 'my-component'
 - [Apply the stylesheet](../components/component.md#styleurl) 'my-component.css' to the component
 - Enable [native Shadow DOM functionality](../components/component.md#shadow) for this component
@@ -175,11 +188,13 @@ Within this class is where you'll write the bulk of your code to bring your Rind
 
 Next, the component contains three class members, `first`, `middle` and `last`.
 Each of these class members have the [`@Prop()` decorator](../components/properties.md#the-prop-decorator-prop) applied to them:
+
 ```ts
   @Prop() first: string;
   @Prop() middle: string;
   @Prop() last: string;
 ```
+
 `@Prop()` tells Rindo that the property is public to the component, and allows Rindo to rerender when any of these public properties change.
 We'll see how this works after discussing the `render()` function.
 
@@ -192,7 +207,7 @@ The quick idea is that our render function needs to return a representation of t
   private getText(): string {
     return format(this.first, this.middle, this.last);
   }
-  
+
   render() {
     return <div>Hello, World! I'm {this.getText()}</div>;
   }
@@ -225,9 +240,11 @@ rindo g
 
 If you would like to run `rindo generate` outside of a Rindo project, it can be installed globally.
 To do so, prefix the command above with [`npx`](https://docs.npmjs.com/cli/v9/commands/npx), like so:
+
 ```shell
 npx rindo generate
 ```
+
 Running a command prefixed with `npx` will fetch the package for you automatically and prompt you to install it.
 Once installed, Rindo will run the task to scaffold a new component.
 
@@ -238,7 +255,7 @@ The component tag name needs to be lowercase and contain at least one dash ('-')
 rindo generate my-new-component
 ```
 
-The generator will ask you which files to generate. 
+The generator will ask you which files to generate.
 This allows you to bootstrap a stylesheet as well as spec and e2e tests along with the component file.
 
 All components will be generated within the `src/components` folder.
@@ -261,7 +278,6 @@ src
             ├── page-home.spec.ts
             └── page-home.tsx
 ```
-
 
 ## Updating Rindo
 

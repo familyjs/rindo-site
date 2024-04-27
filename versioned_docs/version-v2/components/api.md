@@ -15,12 +15,12 @@ The whole API provided by rindo can be condensed in a set of decorators, lifecyc
 Decorators are a pure compiler-time construction used by rindo to collect all the metadata about a component, the properties, attributes and methods it might expose, the events it might emit or even the associated stylesheets.
 Once all the metadata has been collected, all the decorators are removed from the output, so they don't incur any runtime overhead.
 
-- [@Component()](./component.md#component-decorator) declares a new web component
+- [@Component()](./component.md) declares a new web component
 - [@Prop()](./properties.md#the-prop-decorator-prop) declares an exposed property/attribute
 - [@State()](./state.md#the-state-decorator-state) declares an internal state of the component
 - [@Watch()](./reactive-data.md#the-watch-decorator-watch) declares a hook that runs when a property or state changes
 - [@Element()](./host-element.md#element-decorator) declares a reference to the host element
-- [@Method()](./methods.md#method-decorator) declares an exposed public method
+- [@Method()](./methods.md) declares an exposed public method
 - [@Event()](./events.md#event-decorator) declares a DOM event the component might emit
 - [@Listen()](./events.md#listen-decorator) listens for DOM events
 
@@ -66,7 +66,7 @@ The availability of `componentOnReady()` depends on the component's compiled out
 distribution types ([`dist`](../output-targets/dist.md) and [`www`](../output-targets/www.md)) and, as such, is not available for
 [`dist-custom-elements`](../output-targets/custom-elements.md) output.
 
-## The appload event
+## The `appload` event
 
 In addition to component-specific lifecycle hooks, a special event called `appload` will be emitted when the app and all of its child components have finished loading. You can listen for it on the `window` object.
 
@@ -90,7 +90,10 @@ window.addEventListener('appload', (event) => {
 
 - **forceUpdate()**: Schedules a new render of the given instance or element even if no state changed. Notice `forceUpdate()` is not synchronous and might perform the DOM render in the next frame.
 
-- getAssetPath(): Gets the path to local assets. Refer to the [Assets](../guides/assets.md#getassetpath) page for usage info.
-- setMode()
-- getMode()
+- **getAssetPath()**: Gets the path to local assets. Refer to the [Assets](../guides/assets.md#getassetpath) page for usage info.
+
+- **setMode()**: Sets the style mode of a component. Refer to the [Styling](./styling.md#style-modes) page for usage info.
+
+- **getMode()**: Get the current style mode of your application. Refer to the [Styling](./styling.md#style-modes) page for usage info.
+
 - getElement()

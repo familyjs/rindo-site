@@ -11,7 +11,7 @@ Often it's very helpful to understand the state of your libraries generated file
 
 ```tsx
   scripts: {
-    "docs.data": "rindo build --stats" 
+    "docs.data": "rindo build --stats"
     "docs.data-with-optional-file": "rindo build --stats path/to/stats.json"
   }
 ```
@@ -25,16 +25,15 @@ export const config: Config = {
   outputTargets: [
     {
       type: 'stats',
-      file: 'path/to/stats.json' // optional
-    }
-  ]
+      file: 'path/to/stats.json', // optional
+    },
+  ],
 };
 ```
 
 If you don't pass a file name to the `--stats` flag or the output target's `file` key, the file will be output to the root directory of your project as `rindo-stats.json`
 
 Check out the typescript declarations for the JSON output: https://github.com/familyjs/rindo/blob/main/src/declarations/rindo-public-docs.ts
-
 
 ## Data Model
 
@@ -58,24 +57,22 @@ The file that's generated will produce data similar to this:
         "name": "dist-collection",
         "files": 3,
         "generatedFiles": [
-          "./dist/collection/components/my-component/my-component.js",
-           // etc...
+          "./dist/collection/components/my-component/my-component.js"
+          // etc...
         ]
       },
       {
         "name": "dist-lazy",
         "files": 26,
         "generatedFiles": [
-          "./dist/cjs/example-rindo-library.cjs.js",
-           // etc...
+          "./dist/cjs/example-rindo-library.cjs.js"
+          // etc...
         ]
       },
       {
         "name": "dist-types",
         "files": 1,
-        "generatedFiles": [
-          "./dist/types/rindo-public-runtime.d.ts"
-        ]
+        "generatedFiles": ["./dist/types/rindo-public-runtime.d.ts"]
       }
     ]
   },
@@ -90,14 +87,10 @@ The file that's generated will produce data similar to this:
     "esmBrowser": [
       {
         "key": "my-component.entry",
-        "components": [
-          "my-component"
-        ],
+        "components": ["my-component"],
         "bundleId": "p-12cc1edd",
         "fileName": "p-12cc1edd.entry.js",
-        "imports": [
-          "p-24af5948.js"
-        ],
+        "imports": ["p-24af5948.js"],
         "originalByteSize": 562
       }
     ],
@@ -158,27 +151,23 @@ The file that's generated will produce data similar to this:
             "text": "The first name"
           },
           "internal": false
-        },
-      ],
-    },
+        }
+      ]
+    }
   ],
   "entries": [
     {
       "cmps": [
-       // Expanded component details are produced here
+        // Expanded component details are produced here
       ],
       "entryKey": "my-component.entry"
     }
   ],
   "componentGraph": {
-    "sc-my-component": [
-      "p-24af5948.js"
-    ]
+    "sc-my-component": ["p-24af5948.js"]
   },
   "sourceGraph": {
-    "./src/components/my-component/my-component.tsx": [
-      "./src/utils/utils"
-    ],
+    "./src/components/my-component/my-component.tsx": ["./src/utils/utils"],
     "./src/index.ts": [],
     "./src/utils/utils.ts": []
   },
@@ -190,5 +179,4 @@ The file that's generated will produce data similar to this:
 
 ### Preload tags
 
-One example of usage with this file is to automatically create preload tags automatically. [Here's a link to a gist](https://gist.github.com/khanhduy1407/f9ee8f93a4e940cdb5f0ea9c6f5f45ec) containing some code samples about how to set up preloading to improve performance 
-
+One example of usage with this file is to automatically create preload tags automatically. [Here's a link to a gist](https://gist.github.com/khanhduy1407/f9ee8f93a4e940cdb5f0ea9c6f5f45ec) containing some code samples about how to set up preloading to improve performance

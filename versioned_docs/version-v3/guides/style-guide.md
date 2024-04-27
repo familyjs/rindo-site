@@ -46,21 +46,24 @@ Example from family-core:
 │   ├── my-card-title.css
 ```
 
-
 ## Naming
+
 ### HTML tag
 
 #### Prefix
+
 The prefix has a major role when you are creating a collection of components intended to be used across different projects, like [@familyjs/core](https://www.npmjs.com/package/@familyjs/core). Web Components are not scoped because they are globally declared within the webpage, which means a "unique" prefix is needed to prevent collisions. The prefix also helps to quickly identify the collection a component is part of. Additionally, web components are required to contain a "-" dash within the tag name, so using the first section to namespace your components is a natural fit.
 
 We do not recommend using "rindo" as prefix, since Rindo DOES NOT emit rindo components, but rather the output is standards compliant web components.
 
 DO NOT do this:
+
 ```markup
 <rindo-component>
 ```
 
 Instead, use your own naming or brand. For example, [Family](https://family-js.web.app/) components are all prefixed with `fml-`.
+
 ```markup
 <fml-button>
 <fml-header>
@@ -69,7 +72,6 @@ Instead, use your own naming or brand. For example, [Family](https://family-js.w
 #### Name
 
 Components are not actions, they are conceptually "things". It is better to use nouns instead of verbs, such as "animation" instead of "animating". "input", "tab", "nav", "menu" are some examples.
-
 
 #### Modifiers
 
@@ -80,7 +82,6 @@ When several components are related and/or coupled, it is a good idea to share t
 <fml-card-header>
 <fml-card-content>
 ```
-
 
 ### Component (TS class)
 
@@ -98,28 +99,11 @@ export class Button { ... }
 export class Menu { ... }
 ```
 
-
 ## TypeScript
 
-1. **Variable decorators should be inlined.**
+1. **Use private variables and methods as much possible:** They are useful to detect dead code and enforce encapsulation. Note that this is a feature which TypeScript provides to help harden your code, but using `private`, `public` or `protected` does not make a difference in the actual JavaScript output.
 
-```tsx
-@Prop() name: string;
-@Element() el: HTMLElement;
-```
-
-2. **Method decorator should be multi-line**
-
-```tsx
-@Listen('click')
-onClick() {
-  ...
-}
-```
-
-3. **Use private variables and methods as much possible:** They are useful to detect dead code and enforce encapsulation. Note that this is a feature which TypeScript provides to help harden your code, but using `private`, `public` or `protected` does not make a difference in the actual JavaScript output.
-
-4. **Code with Method/Prop/Event/Component decorators should have JSDocs:** This allows for documentation generation and for better user experience in an editor that has TypeScript intellisense
+2. **Code with Method/Prop/Event/Component decorators should have JSDocs:** This allows for documentation generation and for better user experience in an editor that has TypeScript intellisense
 
 ## Code organization
 
@@ -137,11 +121,10 @@ The source file should be organized like a newspaper article, with the highest l
   styleUrls: {
     ios: 'something.ios.css',
     md: 'something.md.css',
-    wp: 'something.wp.css'
-  }
+    wp: 'something.wp.css',
+  },
 })
 export class Something {
-
   /**
    * 1. Own Properties
    * Always set the type if a default value has not
@@ -225,7 +208,7 @@ export class Something {
    */
   @Listen('click', { enabled: false })
   onClick(ev: UIEvent) {
-    console.log('hi!')
+    console.log('hi!');
   }
 
   /**
@@ -271,10 +254,10 @@ export class Something {
         side={this.isRightSide ? 'right' : 'left'}
         type={this.type}
         class={{
-          'something-is-animating': this.isAnimating
+          'something-is-animating': this.isAnimating,
         }}
       >
-        <div class='menu-inner page-inner'>
+        <div class="menu-inner page-inner">
           <slot></slot>
         </div>
       </Host>

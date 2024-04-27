@@ -9,12 +9,11 @@ slug: /web-workers
 
 [Web Workers](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers) are a widely supported technology (Chrome, Firefox, Safari, Edge and IE11) that allows JavaScript to execute in a different thread, maximizing the usage of multiple CPUs; but most importantly not blocking the **main thread**.
 
-The **main thread** is where Javascript runs by default and has access to the `document`, `window` and other DOM APIs. The problem is that long-running JS prevents the browser from running smooth animations (CSS animations, transitions, canvas, svg...), making your site look frozen. That's why if your application needs to run CPU-intensive tasks, Web Workers are a great help.
-
+The **main thread** is where JavaScript runs by default and has access to the `document`, `window` and other DOM APIs. The problem is that long-running JS prevents the browser from running smooth animations (CSS animations, transitions, canvas, svg...), making your site look frozen. That's why if your application needs to run CPU-intensive tasks, Web Workers are a great help.
 
 ## When to use Web Workers?
 
-The first thing to understand is when to use a Web Workers, and when *not* to use them since they come with a set of costs and limitations:
+The first thing to understand is when to use a Web Workers, and when _not_ to use them since they come with a set of costs and limitations:
 
 - There is no access to the [DOM](https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction). This means you cannot interact with `document`, `window` or any elements in the page.
 - There is no access to any of the `@rindo/core` APIs. For example, you cannot declare and use a component in a Web Worker, for the same reasons there is **no access to the DOM**.
@@ -33,7 +32,6 @@ In short, it's generally a good idea to use workers to move logic that is thread
 - Class instances cannot be passed as data. Instead, only work with data can be JSON serializable.
 - Minimize state within the worker, or better yet, completely avoid maintaining any state (e.g., don't put redux inside a worker).
 - The cost of a worker should be easily amortized because it would be doing some CPU-intensive jobs.
-
 
 ## How vanilla Web Workers "work"?
 
@@ -65,10 +63,9 @@ As we already mention, Rindo's compiler can help you to use workers in productio
 **src/stuff.worker.ts:**
 
 ```tsx
-
 export const sum = async (a: number, b: number) => {
   return a + b;
-}
+};
 
 export const expensiveTask = async (buffer: ArrayBuffer) => {
   for (let i = 0; i < buffer.length; i++) {
@@ -79,6 +76,7 @@ export const expensiveTask = async (buffer: ArrayBuffer) => {
 ```
 
 **src/my-app/my-app.tsx:**
+
 ```tsx
 import { Component } from '@rindo/core';
 
@@ -108,7 +106,6 @@ export class MyApp {
 }
 ```
 
-
 Under the hood, Rindo compiles a worker file and uses the standard `new Worker()` API to instantiate the worker. Then it creates proxies for each of the exported functions, so developers can interact with it using [structured programming constructs](https://en.wikipedia.org/wiki/Structured_programming) instead of event-based ones.
 
 :::note
@@ -126,11 +123,9 @@ import upngjs from 'upng-js';
 import { Images } from './materials';
 
 export const loadTexture = async (imagesSrcs: Images) => {
-  const images = await Promise.all(
-    imagesSrcs.map(loadOriginalImage)
-  );
+  const images = await Promise.all(imagesSrcs.map(loadOriginalImage));
   return images;
-}
+};
 
 async function loadOriginalImage(src: string) {
   const res = await fetch(src);
@@ -148,7 +143,7 @@ In order to load scripts dynamically inside of a worker, Web Workers come with a
 Here's an example of how to use `typescript` directly from a CDN with `importScript()`.
 
 ```tsx
-importScripts("https://cdn.jsdelivr.net/npm/typescript@latest/lib/typescript.js");
+importScripts('https://cdn.jsdelivr.net/npm/typescript@latest/lib/typescript.js');
 ```
 
 :::note
@@ -165,12 +160,11 @@ A feature with Rindo's worker is the ability to pass a callback to the method, a
 
 In the example below, the task is given a number that it counts down from the number provided, and the task completes when it gets to `0`. During the count down, however, the main thread will still receive an update every second. This example will console log from `5` to `0`
 
-
 **src/countdown.worker.ts:**
 
 ```tsx
 export const countDown = (num: number, progress: (p: number) => void) => {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     const tmr = setInterval(() => {
       num--;
       if (num > 0) {
@@ -185,6 +179,7 @@ export const countDown = (num: number, progress: (p: number) => void) => {
 ```
 
 **src/my-app/my-app.tsx:**
+
 ```tsx
 import { Component } from '@rindo/core';
 import { countDown } from '../countdown.worker';
@@ -223,10 +218,10 @@ finish 0
 Sometimes it might be necessary to access the actual [`Worker`](https://developer.mozilla.org/en-US/docs/Web/API/Worker) instance, because manual usage of the [`postMessage()`](https://developer.mozilla.org/en-US/docs/Web/API/Worker/postMessage) and [`onmessage`](https://developer.mozilla.org/en-US/docs/Web/API/DedicatedWorkerGlobalScope/onmessage) is desired. However, there's still a tooling challenge in having to bundle the worker, and have the main bundle correctly reference the worker bundle url path. In that case, Rindo also has an API that exposes the worker directly so it can be used instead of the proxies mentioned early.
 
 For a direct worker reference, add `?worker` at the end of an ESM import. This virtual ES module will export:
+
 - `worker`: The actual Worker instance.
 - `workerPath`: The path to the worker's entry-point (usually a path to a `.js` file).
 - `workerName`: The name of the worker, useful for debugging purposes.
-
 
 **src/my-app/my-app.tsx:**
 
@@ -258,12 +253,7 @@ You can even use this feature you create multiple Worker manually:
 ```tsx
 import { workerPath } from '../../stuff.worker.ts?worker';
 
-const workerPool = [
-  new Worker(workerPath),
-  new Worker(workerPath),
-  new Worker(workerPath),
-  new Worker(workerPath),
-];
+const workerPool = [new Worker(workerPath), new Worker(workerPath), new Worker(workerPath), new Worker(workerPath)];
 ```
 
 In this example, we exclusively take advantage of the bundling performed by the compiler to obtain the `workerPath` to the worker's entry point, then manually create a pool of workers.
@@ -280,5 +270,5 @@ Any Web Workers can be terminated using the [`Worker.terminate()`](https://devel
 import { workerPath } from '../../stuff.worker.ts?worker';
 const worker = new Worker(workerPath);
 // ...
-worker.terminate()
+worker.terminate();
 ```

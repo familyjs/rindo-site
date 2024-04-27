@@ -20,19 +20,26 @@ export const config: Config = {
 };
 ```
 
+## buildDist
+
+*default: true (prod), false (dev)*
+
+Sets whether or not Rindo will execute output targets and write output to
+`dist/` when `rindo build` is called. Defaults to `false` when building for
+development and `true` when building for production. If set to `true` then
+Rindo will always build all output targets, regardless of whether the build
+is in dev or prod mode or using watch mode.
+
+```tsx
+buildDist: true
+```
+
 ## buildEs5
 
 Sets if the ES5 build should be generated or not.
 It defaults to `false`.
-Setting `buildEs5` to `true` will also create es5 builds for both dev and prod modes.
+Setting `buildEs5` to `true` will also create ES5 builds for both dev and prod modes.
 Setting `buildEs5` to `prod` will only build ES5 in prod mode.
-If the app does not need to run on legacy browsers (IE11 and Edge 18 and below), `buildEs5` set  to `false`, which will also speed up production build times. 
-In addition to creating es5 builds, apps may also be interested in enable runtime options to __support__ legacy browsers. 
-See [config extras](./extras.md) for more information.
-
-:::info
-As of Rindo v3, legacy browser support is deprecated, and will be removed in a future major version of Rindo.
-:::
 
 ```tsx
 buildEs5: boolean | 'prod'
@@ -49,6 +56,38 @@ bundles: [
   { components: ['fml-button'] },
   { components: ['fml-card', 'fml-card-header'] }
 ]
+```
+
+## cacheDir
+
+*default: '.rindo'*
+
+The directory where sub-directories will be created for caching when [`enableCache`](#enablecache) is set `true` or if using
+[Rindo's Screenshot Connector](../testing/rindo-testrunner/07-screenshot-connector.md).
+
+A Rindo config like the following:
+
+```ts title='rindo.config.ts'
+import { Config } from '@rindo/core';
+
+export const config: Config = {
+  ...,
+  enableCache: true,
+  cacheDir: '.cache',
+  testing: {
+    screenshotConnector: 'connector.js'
+  }
+}
+```
+
+Will result in the following file structure:
+
+```tree
+rindo-project-root
+└── .cache
+    ├── .build <-- Where build related file caching is written
+    |
+    └── screenshot-cache.json <-- Where screenshot caching is written
 ```
 
 ## devServer
@@ -84,14 +123,14 @@ export default function() { // or export default async function()
 ```
 
 :::note
-The exported function can also be `async`.
+The exported function can also be `async` but be aware that this can have implications on the performance of your application as all rendering operations will be deferred until after the global script finishes.
 :::
 
 ## globalStyle
 
 Rindo is traditionally used to compile many components into an app, and each component comes with its own compartmentalized styles. However, it's still common to have styles which should be "global" across all components and the website. A global CSS file is often useful to set [CSS Variables](../components/styling.md).
 
-Additionally, the `globalStyle` config can be used to precompile styles with Sass, PostCss, etc.
+Additionally, the `globalStyle` config can be used to precompile styles with Sass, PostCSS, etc.
 
 Below is an example folder structure containing a webapp's global css file, named `app.css`.
 
@@ -128,6 +167,112 @@ During production builds, the content of each generated file is hashed to repres
 
 ```tsx
 hashFileNames: true
+```
+
+## hydratedFlag
+
+When using the [lazy build](https://rindojs.web.app/docs/distribution) Rindo
+has support for automatically applying a class or attribute to a component and
+all of its child components when they have finished hydrating. This can be used
+to prevent a [flash of unstyled content
+(FOUC)](https://en.wikipedia.org/wiki/Flash_of_unstyled_content), a
+typically-undesired 'flicker' of unstyled HTML that might otherwise occur
+during component rendering while various components are asynchronously
+downloaded and rendered.
+
+By default, Rindo will add the `hydrated` CSS class to elements to indicate
+hydration. The `hydratedFlag` config field allows this behavior to be
+customized, by changing the name of the applied CSS class, setting it to use an
+attribute to indicate hydration, or changing which type of CSS properties and
+values are assigned before and after hydrating. This config can also be used to
+turn off this behavior by setting it to `null`.
+
+If a Rindo configuration does not supply a value for `hydratedFlag` then
+Rindo will automatically generate the following default configuration:
+
+```ts
+const defaultHydratedFlag: HydratedFlag = {
+  hydratedValue: 'inherit',
+  initialValue: 'hidden',
+  name: 'hydrated',
+  property: 'visibility',
+  selector: 'class',
+};
+```
+
+If `hydratedFlag` is explicitly set to `null`, Rindo will not set a default
+configuration and the behavior of marking hydration with a class or attribute
+will be disabled.
+
+```tsx
+hydratedFlag: null | {
+    name?: string,
+    selector?: 'class' | 'attribute',
+    property?: string,
+    initialValue?: string,
+    hydratedValue?: string
+}
+```
+
+The supported options are as follows:
+
+### name
+
+*default: 'hydrated'*
+
+The name which Rindo will use for the attribute or class that it sets on
+elements to indicate that they are hydrated.
+
+```tsx
+name: string
+```
+
+### selector
+
+*default: 'class'*
+
+The way that Rindo will indicate that a component has been hydrated. When
+`'class'`, Rindo will set the `name` option on the element as a class, and
+when `'attribute'`, Rindo will similarly set the `name` option as an
+attribute.
+
+```tsx
+selector: 'class' | 'attribute'
+```
+
+### property
+
+*default: 'visibility'*
+
+The CSS property used to show and hide components. This defaults to the CSS
+`visibility` property. Other possible CSS properties might include `display`
+with the `initialValue` setting as `none`, or `opacity` with the `initialValue`
+as `0`. Defaults to `visibility`.
+
+```tsx
+property: string
+```
+
+### initialValue
+
+*default: 'hidden'*
+
+This is the value which should be set for the property specified by `property`
+on all components before hydration.
+
+```tsx
+initialValue: string
+```
+
+### hydratedValue
+
+*default: 'inherit'*
+
+This is the value which should be set for the property specified by `property`
+on all components once they've completed hydration.
+
+```tsx
+hydratedValue: string
 ```
 
 ## invisiblePrehydration
@@ -264,11 +409,11 @@ taskQueue: 'async'
 
 ## testing
 
-Please see the [testing config docs](../testing/config.md).
+Please see the [testing config docs](../testing/rindo-testrunner/02-config.md).
 
 ## transformAliasedImportPaths
 
-*default: `false`*
+*default: `true`*
 
 This sets whether or not Rindo should transform [path aliases](
 https://www.typescriptlang.org/docs/handbook/module-resolution.html#path-mapping) set
@@ -305,8 +450,7 @@ export function util(arg: UtilInterface) {
 }
 ```
 
-if the `transformAliasedImportPaths` option is set to `true` Rindo will
-produce the following output:
+Rindo will produce the following output:
 
 ```js title="dist/my-module.js"
 import { utilFunc } from '../path/to/utils';
@@ -319,3 +463,10 @@ export function util(arg) {
 import { UtilInterface } from '../path/to/utils';
 export declare function util(arg: UtilInterface): void;
 ```
+
+## validatePrimaryPackageOutputTarget
+
+*default: `false`*
+
+When `true`, validation for common `package.json` fields will occur based on setting an output target's `isPrimaryPackageOutputTarget` flag.
+For more information on package validation, please see the [output target docs](../output-targets/01-overview.md#primary-package-output-target-validation).

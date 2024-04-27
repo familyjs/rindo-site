@@ -15,9 +15,7 @@ To auto-generate readme files, add the `docs-readme` output target to your `rind
 import { Config } from '@rindo/core';
 
 export const config: Config = {
-  outputTargets: [
-    { type: 'docs-readme' }
-  ]
+  outputTargets: [{ type: 'docs-readme' }],
 };
 ```
 
@@ -29,6 +27,7 @@ rindo build --docs
 
 This will cause the Rindo compiler to perform a one-time generation of README
 files using the [`docs-readme`](https://rindojs.web.app/docs/docs-readme) output target.
+
 ## Adding Custom Markdown to Auto-Generated Files
 
 Once you've generated a `readme.md` file you can customize it with your own markdown content. Simply add your own markdown above the comment that reads: `<!-- Auto Generated Below -->`.
@@ -42,11 +41,11 @@ import { Config } from '@rindo/core';
 
 export const config: Config = {
   outputTargets: [
-    { 
+    {
       type: 'docs-readme',
       footer: '*Built with love!*',
-    }
-  ]
+    },
+  ],
 };
 ```
 
@@ -59,11 +58,11 @@ import { Config } from '@rindo/core';
 
 export const config: Config = {
   outputTargets: [
-    { 
+    {
       type: 'docs-readme',
-      dir: 'output'
-    }
-  ]
+      dir: 'output',
+    },
+  ],
 };
 ```
 
@@ -76,10 +75,10 @@ import { Config } from '@rindo/core';
 
 export const config: Config = {
   outputTargets: [
-    { 
+    {
       type: 'docs-readme',
-      strict: true
-    }
-  ]
+      strict: true,
+    },
+  ],
 };
 ```

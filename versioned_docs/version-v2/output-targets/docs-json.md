@@ -24,14 +24,13 @@ export const config: Config = {
   outputTargets: [
     {
       type: 'docs-json',
-      file: 'path/to/docs.json'
-    }
-  ]
+      file: 'path/to/docs.json',
+    },
+  ],
 };
 ```
 
 Check out the typescript declarations for the JSON output: https://github.com/familyjs/rindo/blob/main/src/declarations/rindo-public-docs.ts
-
 
 ## CSS Variables
 
@@ -45,7 +44,6 @@ Rindo will also document CSS variables when you specify them via jsdoc-style com
  */
 ```
 
-
 ## Slots
 
 Slots can be documented by adding `@slot` tags to the doc comments above the `@Component` decorator.
@@ -55,12 +53,11 @@ Slots can be documented by adding `@slot` tags to the doc comments above the `@C
  * @slot slotName - slotDescription
  * @slot buttonContent - Slot for the content of the button
  */
- 
+
  @Component({
   tag: '...'
 }) ...
 ```
-
 
 ## Usage
 
@@ -77,7 +74,6 @@ src/
       my-component.tsx
 ```
 
-
 ## Custom JSDocs Tags
 
 In addition to reading the predefined JSDoc tags, users can provide their own custom tags which also get included in the JSON data. This makes it easier for teams to provide their own documentation and conventions to get built within the JSON data. For example, if we added a comment into our source code like this:
@@ -87,7 +83,7 @@ In addition to reading the predefined JSDoc tags, users can provide their own cu
  * @myDocTag someName - some value
  * @myOtherDocTag someOtherName - some other name
  */
- 
+
 @Component({
   tag: '...'
 }) ...

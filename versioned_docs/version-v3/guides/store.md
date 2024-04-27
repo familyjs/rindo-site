@@ -25,15 +25,15 @@ npm install @rindo/store --save-dev
 **store.ts:**
 
 ```tsx
-import { createStore } from "@rindo/store";
+import { createStore } from '@rindo/store';
 
 const { state, onChange } = createStore({
   clicks: 0,
   seconds: 0,
-  squaredClicks: 0
+  squaredClicks: 0,
 });
 
-onChange('clicks', value => {
+onChange('clicks', (value) => {
   state.squaredClicks = value ** 2;
 });
 
@@ -50,7 +50,6 @@ import state from '../store';
   tag: 'app-profile',
 })
 export class AppProfile {
-
   componentWillLoad() {
     setInterval(() => state.seconds++, 1000);
   }
@@ -72,11 +71,7 @@ export class AppProfile {
 }
 
 const MyGlobalCounter = () => {
-  return (
-    <button onClick={() => state.clicks++}>
-      {state.clicks}
-    </button>
-  );
+  return <button onClick={() => state.clicks++}>{state.clicks}</button>;
 };
 ```
 
@@ -123,7 +118,6 @@ Reset the store to its initial state.
 ### `store.use(...subscriptions)`
 
 Use the given subscriptions in the store. A subscription is an object that defines one or more of the properties `get`, `set` or `reset`.
-
 
 ## Testing
 

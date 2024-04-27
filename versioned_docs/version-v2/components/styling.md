@@ -57,7 +57,7 @@ With the shadow DOM enabled, only these styles will be applied to the component.
 ### Shadow DOM QuerySelector
 
 When using Shadow DOM and you want to query an element inside your web component, you must first use the [`@Element` decorator](./host-element.md#element-decorator) to gain access to the host element, and then you can use the `shadowRoot` property to perform the query. This is because all of your DOM inside your web component is in a shadowRoot that Shadow DOM creates. For example:
-  
+
 ```tsx
 import { Component, Element } from '@rindo/core';
 
@@ -232,6 +232,69 @@ By specifying "inner-text" as the value of the `exportparts` attribute, elements
 
 <outer-component />
 ```
+
+## Style Modes
+
+Component Style Modes enable you to create versatile designs for your components by utilizing different styling configurations. This is achieved by assigning the styleUrls property of a component to a collection of style mode names, each linked to their respective CSS files.
+
+### Example: Styling a Button Component
+
+Consider a basic button component that supports both iOS and Material Design aesthetics:
+
+```tsx title="Using style modes to style a component"
+@Component({
+  tag: 'simple-button',
+  styleUrls: {
+    md: './simple-button.md.css', // styles for Material Design
+    ios: './simple-button.ios.css', // styles for iOS
+  },
+})
+export class SimpleButton {
+  // ...
+}
+```
+
+In the example above, two different modes are declared. One mode is named `md` (for 'Material Design') and refers back to a Material Design-specific stylesheet. Likewise, the other is named `ios` (for iOS) and references a different stylesheet for iOS-like styling. Both stylesheets are relative paths to the file that declares the component. While we have chosen short names in the above example, there's no limitation to the keys used in the `styleUrls` object.
+
+To dictate the style mode (Material Design or iOS) in which the button should be rendered, you must initialize the desired mode before any component rendering occurs. This can be done as follows:
+
+```ts
+import { setMode } from '@rindo/core';
+setMode(() => 'ios'); // Setting iOS as the default mode for all components
+```
+
+The `setMode` function processes all elements, enabling the assignment of modes individually based on specific element attributes. For instance, by assigning the `mode` attribute to a component:
+
+```html
+<simple-button mode="ios"></simple-button>
+```
+
+You can conditionally set the style mode based on the `mode` property:
+
+```ts
+import { setMode } from '@rindo/core';
+
+const defaultMode = 'md'; // Default to Material Design
+setMode((el) => el.getAttribute('mode') || defaultMode);
+```
+
+The reason for deciding which mode to apply can be very arbitrary and based on your requirements, using an element property called `mode` is just one example.
+
+### Important Considerations
+
+- **Initialization:** Style modes must be defined at the start of the component lifecycle and cannot be changed thereafter. If you like to change the components mode dynamically you will have to re-render it entirely.
+- **Usage Requirement:** A style mode must be set to ensure the component loads with styles. Without specifying a style mode, the component will not apply any styles.
+- **Input Validation:** Verify a style mode is supported by a component you are setting it for. Setting an un-supported style mode keeps the component unstyled.
+- **Querying Style Mode:** To check the current style mode and e.g. provide different functionality based on the mode, use the `getMode` function:
+
+```ts
+import { setMode, getMode } from '@rindo/core';
+
+const simpleButton = document.queryElement('simple-button');
+console.log(getMode(simpleButton)); // Outputs the current style mode of component
+```
+
+This approach ensures your components are adaptable and can dynamically switch between different styles, enhancing the user experience across various platforms and design preferences.
 
 ## Global styles
 

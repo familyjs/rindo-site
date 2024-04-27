@@ -7,20 +7,19 @@ slug: /distribution
 
 # Distribution Output Target
 
-The `dist` type is to generate the component(s) as a reusable library that can be self-lazy loading, such as [Family](https://www.npmjs.com/package/@familyjs/core). When creating a distribution, the project's `package.json` will also have to be updated. However, the generated bundle is treeshakable, ensuring that only imported components will end up in the build.
+The `dist` type is to generate the component(s) as a reusable library that can be self-lazy loading, such as [Family](https://www.npmjs.com/package/@familyjs/core). When creating a distribution, the project's `package.json` will also have to be updated. However, the generated bundle is tree-shakable, ensuring that only imported components will end up in the build.
 
 ```tsx
 outputTargets: [
   {
-    type: 'dist'
-  }
-]
+    type: 'dist',
+  },
+];
 ```
-
 
 ## How is this different from "dist-custom-elements-bundle" output target?
 
-The `dist-custom-elements-bundle` output target has been deprecated in Rindo v2.16.0 in favor of the [`dist-custom-elements` output target](./custom-elements.md). The information below is for historical purposes only. 
+The `dist-custom-elements-bundle` output target has been deprecated in [Rindo v2.12.0](https://github.com/familyjs/rindo/releases/tag/v2.12.0) in favor of the [`dist-custom-elements` output target](./custom-elements.md). The information below is for historical purposes only.
 
 To start, Rindo was designed to lazy-load itself only when the component was actually used on a page. There are many benefits to this approach, such as simply adding a script tag to any page and the entire library is available for use, yet only the components actually used are downloaded. For example, [`@familyjs/core`](https://www.npmjs.com/package/@familyjs/core) comes with over 100 components, but a one webpage may only need `fml-toggle`. Instead of requesting the entire component library, or generating a custom bundle for just `fml-toggle`, the `dist` output target is able to generate a tiny entry build ready to load any of its components on-demand.
 

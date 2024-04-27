@@ -12,8 +12,6 @@ Static Site Generation (SSG) means building and rendering components and routes 
 
 Static Site Generation doesn't mean your pages have to be and/or _stay_ static! Rindo utilizes hydration to efficiently load client-side components at runtime to get the best of both worlds.
 
-For an example of what this looks like, right-click on this very page and hit the View Page Source option. You'll notice this page does not require any external JavaScript or CSS files for the first paint.
-
 Since Static Site Generation prerenders components, there are some tradeoffs and things to keep in mind, but most components can be easily prerendered without much modification.
 
 Rindo makes SSG easy, so read on to see how to incorporate it into your apps.
@@ -35,7 +33,7 @@ Rindo makes SSG easy, so read on to see how to incorporate it into your apps.
 
 **Crawl App**: During each page prerender, Rindo also collects the anchor elements and URLs used within the page. With this information, it's able to inform the main thread of which pages should be prerendered next. The main thread is in charge of orchestrating all of the URLs, and the job is finished once all of the pages have been crawled and prerendered.
 
-**Deploy Static Files to Production**: Now that all of the pages have been prerendered and written as static HTML files, the `www` directory can now be deployed to a server. A significant difference from prerendering and Serverside Rendering (SSR), is that the HTTP server is just serving up static HTML files rather than dynamically generating the HTML on the server.
+**Deploy Static Files to Production**: Now that all of the pages have been prerendered and written as static HTML files, the `www` directory can now be deployed to a server. A significant difference from prerendering and Server-side Rendering (SSR), is that the HTTP server is just serving up static HTML files rather than dynamically generating the HTML on the server.
 
 **Static HTML Response**: With the static HTML files deploy to a server, visitors of each prerendered page first receive the HTML with inline styles, and no blocking JS or CSS. Additionally, the compiler is already aware of the exact modules the visitor will need for this page, and will asynchronously preload the modules using [link `modulepreload`](https://html.spec.whatwg.org/multipage/links.html#link-type-modulepreload).
 
@@ -46,6 +44,6 @@ Rindo makes SSG easy, so read on to see how to incorporate it into your apps.
 To be clear, Rindo does _not_ use `Puppeteer` or `jsdom` for prerendering. Puppeteer is great for End-to-End
 testing, but for performance reasons it's not ideal to quickly generate a large website with hundreds or thousands of pages. Additionally, `jsdom` is often used for unit testing, but in our experience it's difficult to use with async components and its global environment nature.
 
-Instead, Rindo uses its own internal DOM APIs which strictly follow the web standards, but optimized for prerendering, Static Site Generation and Serverside Rendering. By doing so, developers can still use all the same APIs they're already familiar with, but they'll seamlessly work within a NodeJS environment too. This means developers often do not have to write code differently in how they're building components, but rather they focus only on writing one type of component, and coding it using the standards they already know. To reiterate, developers do not have to learn a new API for prerendering. It's just the same web APIs your components are already using.
+Instead, Rindo uses its own internal DOM APIs which strictly follow the web standards, but optimized for prerendering, Static Site Generation and Server-side Rendering. By doing so, developers can still use all the same APIs they're already familiar with, but they'll seamlessly work within a NodeJS environment too. This means developers often do not have to write code differently in how they're building components, but rather they focus only on writing one type of component, and coding it using the standards they already know. To reiterate, developers do not have to learn a new API for prerendering. It's just the same web APIs your components are already using.
 
 Every component, machine and environment will perform differently, so it's difficult to provide a consistent benchmark. However, what we do know is that [Family's Documentation site](https://family-js.web.app/docs) has hundreds of pages and Rindo is able to prerender the entire site in a few seconds.

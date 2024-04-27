@@ -31,7 +31,7 @@ An example telemetry event looks like this:
    "duration": 2762,
    "componentCount": 13,
    "targets": [ "www", "dist-lazy", "docs-readme", "docs-vscode" ],
-   "packages": [ "@jigra/cli@^3.7.1", "@jigra/core@^3.7.1", "@rindo/core@latest" ],
+   "packages": [ "@jigra/cli@^3.7.1", "@jigra/core@^3.7.1", "@rindo/core@latest", "@rindo/store@latest" ],
    "arguments": [ "--debug" ],
    "task": "build",
    "rindo": "2.16.0",
@@ -51,7 +51,7 @@ We do not collect any metrics which may contain sensitive data. This includes, b
 
 ### Will This Data Be Shared?
 
-No. Data collected will not be shared outside of Family. The data collected is anonymous, not traceable to the source, and only meaningful in aggregate form. We take your privacy and our security very seriously.
+No. Data collected will not be shared outside of Family. The data collected is anonymous, not traceable to the source, and only meaningful in aggregate form. We take your privacy and our security very seriously. Rindo telemetry falls under the [Family Privacy Policy](https://family-js.web.app/privacy).
 
 ### How Do I Opt-Out?
 

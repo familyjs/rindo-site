@@ -7,13 +7,13 @@ slug: /config-extras
 
 # Extras
 
-The `extras` config contains options to enable new/experimental features in Rindo, add & remove runtime for DOM 
-features that require manipulations to polyfills, etc. For example, not all DOM APIs are fully polyfilled when 
+The `extras` config contains options to enable new/experimental features in Rindo, add & remove runtime for DOM
+features that require manipulations to polyfills, etc. For example, not all DOM APIs are fully polyfilled when
 using the Slot polyfill. Most of these are opt-in, since not all users require the additional runtime.
 
 By default, Rindo does not work on IE11, Edge 18 and below (Edge before it moved to Chromium) and Safari 10. In order to support legacy browsers, the browsers would need to download and run polyfills. By using the `extras` config, apps can opt-in these additional runtime settings.
 
-Example `extras` config when __supporting__ legacy browsers:
+Example `extras` config when **supporting** legacy browsers:
 
 ```tsx
 export const config: Config = {
@@ -27,7 +27,7 @@ export const config: Config = {
     appendChildSlotFix: false,
     cloneNodeFix: false,
     slotChildNodesFix: true,
-  }
+  },
 };
 ```
 
@@ -69,8 +69,9 @@ This is an experimental flag that, when set to `true`, will allow downstream pro
 and use a bundler such as Wite to lazily load the Rindo library's components.
 
 In order for this flag to work:
+
 1. The Rindo library must expose lazy loadable components, such as those created with the
-[`dist` output target](../output-targets/dist.md)
+   [`dist` output target](../output-targets/dist.md)
 2. The Rindo library must be recompiled with this flag set to `true`
 
 This flag works by creating dynamic import statements for every lazily loadable component in a Rindo project.
@@ -82,14 +83,14 @@ Defaults to `false`.
 
 Dispatches component lifecycle events. By default these events are not dispatched, but by enabling this to `true` these events can be listened for on `window`. Mainly used for testing.
 
-| Event Name                     | Description                                                    |
-|--------------------------------|----------------------------------------------------------------|
-| `rindo_componentWillLoad`    | Dispatched for each component's `componentWillLoad`. |
-| `rindo_componentWillUpdate`  | Dispatched for each component's `componentWillUpdate`. |
-| `rindo_componentWillRender`  | Dispatched for each component's `componentWillRender`. |
-| `rindo_componentDidLoad`     | Dispatched for each component's `componentDidLoad`. |
-| `rindo_componentDidUpdate`   | Dispatched for each component's `componentDidUpdate`. |
-| `rindo_componentDidRender`   | Dispatched for each component's `componentDidRender`. |
+| Event Name                  | Description                                            |
+| --------------------------- | ------------------------------------------------------ |
+| `rindo_componentWillLoad`   | Dispatched for each component's `componentWillLoad`.   |
+| `rindo_componentWillUpdate` | Dispatched for each component's `componentWillUpdate`. |
+| `rindo_componentWillRender` | Dispatched for each component's `componentWillRender`. |
+| `rindo_componentDidLoad`    | Dispatched for each component's `componentDidLoad`.    |
+| `rindo_componentDidUpdate`  | Dispatched for each component's `componentDidUpdate`.  |
+| `rindo_componentDidRender`  | Dispatched for each component's `componentDidRender`.  |
 
 ### safari10
 
