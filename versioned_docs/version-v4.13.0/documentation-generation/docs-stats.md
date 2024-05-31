@@ -179,4 +179,4 @@ The file that's generated will produce data similar to this:
 
 ### Preload tags
 
-One example of usage with this file is to automatically create preload tags automatically. [Here's a link to a gist](https://gist.github.com/splitinfinities/8dcd1b4acf315632cd1e1dd9891fe8f1) containing some code samples about how to set up preloading to improve performance
+One example of usage with this file is to automatically create preload tags automatically. [Here's a link to a gist](https://gist.github.com/khanhduy1407/f9ee8f93a4e940cdb5f0ea9c6f5f45ec) containing some code samples about how to set up preloading to improve performance

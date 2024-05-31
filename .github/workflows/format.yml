@@ -1,4 +1,4 @@
-name: Format Stencil Docs (Check)
+name: Format Rindo Docs (Check)
 
 on:
   workflow_call:
